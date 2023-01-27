@@ -1,0 +1,5 @@
+module.exports ={
+    SUCCESS: 200,
+    AUTHENTICATION_FAILED: 401,
+    SOME_INTERNAL_ERROR: 1000,
+}
