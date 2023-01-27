@@ -7,14 +7,17 @@ class ProductServices {
     static async getAllProducts(requestObj){
         let responseObject = utils.responseFormat();
         try {
-            
+            const products = await productModel.find();
+            responseObject.data = products;
         } catch (error) {
             logger.error({
                 error,
                 methodName: "getAllProducts",
                 path : path.basename(__filename)
             })
+            throw error;
         }
+        return responseObject;
     }
 
     static async addProduct(requestObj){
