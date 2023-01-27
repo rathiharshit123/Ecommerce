@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/rathiharshit123/Ecommerce#readme",
   "dependencies": {
+    "@hapi/joi": "^15.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.9.0",
