@@ -24,7 +24,7 @@ const getAllProducts = async function(req,res) {
 const addProduct = async function(req,res){
     let responseObject = util.responseFormat();
     try {
-        let response = await ProductServices.addProduct(req.query);
+        let response = await ProductServices.addProduct(req.body);
         responseObject = util.response(response.code,response.data);
     } catch (error) {
         logger.error({
