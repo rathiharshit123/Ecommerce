@@ -73,9 +73,17 @@ class UserServices{
         return responseObject;
     }
     
-    static async logout(requestObj){
+    static async logout(req){
+        let responseObject = utils.responseFormat();
         try {
-            
+            res.cookies('token',null,{
+                expires: Date.now(),
+                httpOnly: true,
+            })
+
+            responseObject = utils.response(responseCode.LOGOUT_SUCCESFULL);
+            return responseObject;
+
         } catch (error) {
             logger.error(error);
             throw error;

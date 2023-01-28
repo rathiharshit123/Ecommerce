@@ -51,8 +51,11 @@ const login = async function (req,res) {
 const logout = async function (req,res) {
     let responseObject = utils.responseFormat();
     try {
-        const response = await UserServices.logout(req.body);
-        responseObject = utils.response(response.code,response.data);
+        res.cookie('token',null,{
+            expires: new Date(Date.now()),
+            httpOnly: true,
+        })
+        responseObject = utils.response(responseCode.LOGOUT_SUCCESFULL);
     } catch (error) {
         logger.error(error);
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
