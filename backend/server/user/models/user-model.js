@@ -1,5 +1,4 @@
 const connection = require("../../utils/mongo-connection").connection;
-const { string } = require("@hapi/joi");
 const mongoose = require("mongoose");
 
 const userschema = new mongoose.Schema({
@@ -40,4 +39,4 @@ const userschema = new mongoose.Schema({
     timestamps: true,
 })
 
-module.exports = mongoose.model("User",userschema)
+module.exports = connection.model("User",userschema)
