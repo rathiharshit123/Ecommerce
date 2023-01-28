@@ -10,11 +10,7 @@ class ProductServices {
             const products = await productModel.find();
             responseObject.data = products;
         } catch (error) {
-            logger.error({
-                error,
-                methodName: "getAllProducts",
-                path : path.basename(__filename)
-            })
+            logger.info(error)
             throw error;
         }
         return responseObject;
@@ -26,11 +22,7 @@ class ProductServices {
             const product = await productModel.create(requestObj);
             responseObject.data = product;
         } catch (error) {
-            logger.error({
-                error,
-                methodName: "addProduct",
-                path : path.basename(__filename)
-            })
+            logger.info(error)
             throw error;
         }
         return responseObject
@@ -39,27 +31,82 @@ class ProductServices {
     static async updateProduct(requestObj){
         let responseObject = utils.responseFormat();
         try {
+            let {id} = requestObj.params;
+
+            if(id.length!=24){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            let product = await productModel.findById(id);
             
-        } catch (error) {
-            logger.error({
-                error,
-                methodName: "updateProduct",
-                path : path.basename(__filename)
+            if(!product){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+            
+            product = await productModel.findByIdAndUpdate(id,requestObj.body,{
+                new: true,
+                runValidators: true,
+                useFindAndModify: true,
+            
             })
+            responseObject.data = product;
+        } catch (error) {
+            logger.info(error)
+            throw error;
         }
+        return responseObject;
     }
 
     static async deleteProduct(requestObj){
         let responseObject = utils.responseFormat();
         try {
+            let {id} = requestObj.params;
             
+            if(id.lenght!=24){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            let product = await productModel.findById(id);
+            
+            if(!product){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            await product.remove();
         } catch (error) {
-            logger.error({
-                error,
-                methodName: "deleteProduct",
-                path : path.basename(__filename)
-            })
+            logger.info(error);
+            throw error;
         }
+        return responseObject;
+    }
+
+    static async getProduct(requestObj){
+        let responseObject = utils.responseFormat();
+        try {
+            let {id} = requestObj.params;
+            
+            if(id.length!=24){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            let product = await productModel.findById(id);
+            
+            if(!product){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            responseObject.data = product;
+        } catch (error) {
+            logger.info(error);
+            throw error;
+        }
+        return responseObject;
     }
     
 }
