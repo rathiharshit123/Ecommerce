@@ -2,13 +2,24 @@ const logger = require("../../utils/logger");
 const responseCode = require("../../utils/response-code");
 const utils = require("../../utils/util");
 const productModel = require("../models/product-model");
-const path = require('path')
+const ProductFeatures = require('../../utils/product-featutres');
+const constants = require("../../utils/constants");
 class ProductServices {
     static async getAllProducts(requestObj){
         let responseObject = utils.responseFormat();
         try {
-            const products = await productModel.find();
-            responseObject.data = products;
+
+            let resultPerPage = constants.MAX_PRODUCTS_PER_PAGE;
+            const totalProducts = await productModel.countDocuments();
+
+            const productFeatureObj = new ProductFeatures(productModel,requestObj);
+            const allProducts =  await productFeatureObj.search().filter().pagination(resultPerPage).query;
+
+            let data = {
+                totalProducts,
+                list: allProducts
+            }
+            responseObject.data = data;
         } catch (error) {
             logger.info(error)
             throw error;
