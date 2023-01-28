@@ -27,10 +27,16 @@ class ProductServices {
         return responseObject;
     }
 
-    static async addProduct(requestObj){
+    static async addProduct(req){
         let responseObject = utils.responseFormat();
         try {
-            const product = await productModel.create(requestObj);
+            let requestObj = req.body;
+            let userDetails = req.user;
+            const product = await productModel.create({
+                ...requestObj,
+                addedByName: userDetails.name,
+                addedById: userDetails._id,
+            });
             responseObject.data = product;
         } catch (error) {
             logger.info(error)

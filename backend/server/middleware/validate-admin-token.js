@@ -18,6 +18,7 @@ const validateAdminToken = async function(req,res,next){
         if(decodedData){
             let userDetails = await userModel.findById(decodedData.userId);
             if(userDetails.role == 'admin'){
+                req.user = userDetails;
                 return next();
             }
         }
