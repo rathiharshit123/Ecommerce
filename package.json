@@ -19,9 +19,14 @@
   "homepage": "https://github.com/rathiharshit123/Ecommerce#readme",
   "dependencies": {
     "@hapi/joi": "^15.0.3",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.0",
-    "pino": "^6.7.0"
+    "pino": "^6.7.0",
+    "validator": "^13.7.0"
   }
 }
