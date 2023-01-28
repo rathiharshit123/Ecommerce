@@ -10,7 +10,7 @@ class UserServices{
     static async    registerUser(requestObj){
         let responseObject = utils.responseFormat();
         try {
-            const {name,email,password} = requestObj;
+            const {name,email,password,avatar} = requestObj;
 
             const checkUserExist = await userModel.findOne({email});
 
@@ -25,10 +25,7 @@ class UserServices{
                 name,
                 email,
                 password: hashedPassword,
-                avatar: {
-                    publicId: "Sample Id",
-                    url: "SampleUrl"
-                }
+                avatar
             })
 
             let token = this.createToken(user._id);
@@ -45,12 +42,35 @@ class UserServices{
     }
 
     static async login(requestObj){
+        let responseObject = utils.responseFormat();
         try {
-            
+            let {email,password} = requestObj;
+
+            let user = await userModel.findOne({email}).select("+password");;
+
+            if(!user){
+                responseObject = utils.response(responseCode.INVALID_CREDENTIALS);
+                return responseObject;
+            }
+
+            let passwordMatch = await bcrypt.compare(password,user.password);
+
+            if(!passwordMatch){
+                responseObject = utils.response(responseCode.INVALID_CREDENTIALS);
+                return responseObject;
+            }
+
+            let token = this.createToken(user._id);
+            let data ={
+                token,
+                user
+            }
+            responseObject.data = data;
         } catch (error) {
             logger.error(error);
             throw error;
         }
+        return responseObject;
     }
     
     static async logout(requestObj){
@@ -68,10 +88,7 @@ class UserServices{
             const hashPassword = await bcrypt.hash(password,salt);
             return hashPassword;
         } catch (error) {
-            console.log({
-                error,
-                msg: "error on hashing password - getHashPassword"
-            })
+            logger.error(error);
             throw error;
         }
     }
@@ -82,7 +99,7 @@ class UserServices{
             let tokenValue = {
                 userId,
             };
-            let token = jwt.sign(tokenValue, config.JWT_SECRET,{expiresIn: config});
+            let token = jwt.sign(tokenValue, config.JWT_SECRET,{expiresIn: config.JWT_EXPIRY});
             return token;
         } catch (error) {
             throw error;
