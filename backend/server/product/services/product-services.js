@@ -125,7 +125,87 @@ class ProductServices {
         }
         return responseObject;
     }
+
+    static async createReview(req){
+        let responseObject = utils.responseFormat();
+        try {
+            let {rating,comment,productId} = req.body;
+
+            if(productId.length!=24){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            const product = await productModel.findById(productId);
+
+            if(!product){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            let userReview = {
+                user: req.user._id,
+                name: req.user.name,
+                rating: Number(rating),
+                comment,
+            }
+            console.log(userReview);
+
+            let dataToUpdate = {};
+
+            let reviewArr = product.reviews;
+            let numberOfReviews = product.numberOfReviews
+
+            let avg = 0,
+                totalRating = 0,
+                isReviewed = false;
+
+            reviewArr.forEach((review)=>{
+                if(review.user.toString()==req.user._id) isReviewed = true;
+            })
+
+            if(isReviewed){
+                reviewArr.forEach(review => {
+                    if(review.user.toString() == req.user._id){
+                        review.rating = rating;
+                        review.comment = comment;
+                    }
+                });
+
+            } else {
+                reviewArr.push(userReview);
+                numberOfReviews++;
+            }
+            
+            reviewArr.forEach((review)=>{
+                totalRating+=review.rating
+            })
+
+            avg = totalRating/reviewArr.length
+
+            dataToUpdate = {
+                reviews: reviewArr,
+                numberOfReviews,
+                ratings: avg
+            }
+
+            await productModel.findByIdAndUpdate(productId,dataToUpdate);
+            responseObject = utils.response(responseCode.SUCCESS,{},'Review added sucessfully')
+        } catch (error) {
+            logger.error(error,"Error in createReview Service")
+            throw error;
+        }
+        return responseObject;
+    }
     
+    static async getAllReviews(requestObj){
+        let responseObject = utils.responseFormat();
+        try {
+            
+        } catch (error) {
+            logger.error(error,"Error in createReview Service")
+        }
+    }
 }
 
 module.exports = ProductServices;
