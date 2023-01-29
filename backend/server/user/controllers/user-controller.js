@@ -51,7 +51,7 @@ const login = async function (req,res) {
 const logout = async function (req,res) {
     let responseObject = utils.responseFormat();
     try {
-        res.cookie('token',null,{
+        await res.cookie('token',null,{
             expires: new Date(Date.now()),
             httpOnly: true,
         })
@@ -90,10 +90,13 @@ const resetPassword = async function (req,res) {
 const getMyProfile = async function (req,res){
     let responseObject = utils.responseFormat();
     try {
-        
+        const response = await UserServices.getMyProfile(req);
+        responseObject = utils.response(response.code,response.data,response.message);
     } catch (error) {
         logger.error(error,"Error in getMyProfile Controller")
+        responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
+    res.json(responseObject);
 }
 
 
@@ -104,4 +107,5 @@ module.exports = {
     logout,
     forgotPassword,
     resetPassword,
+    getMyProfile,
 }

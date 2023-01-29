@@ -11,7 +11,7 @@ const validateAdminToken = async function(req,res,next){
     
         if(!token){
             responseObject= utils.response(responseCode.AUTHENTICATION_FAILED);
-            res.json(responseObject);
+            return res.json(responseObject);
         }
 
         let decodedData = jwt.verify(token,config.JWT_SECRET);
@@ -24,7 +24,7 @@ const validateAdminToken = async function(req,res,next){
         }
     } catch (error) {
         responseObject= utils.response(responseCode.AUTHENTICATION_FAILED);
-        res.json(responseObject);
+        return res.json(responseObject);
     }
     return res.json(utils.response(responseCode.AUTHENTICATION_FAILED));
 }

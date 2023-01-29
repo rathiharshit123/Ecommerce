@@ -7,7 +7,8 @@ routes.post('/register',controller.registerUser);
 routes.post('/login',controller.login);
 routes.get('/logout',middleware.validateUserToken,controller.logout)
 routes.post('/forgot/password', controller.forgotPassword);
-routes.put('/reset/password/:token',controller.resetPassword)
+routes.put('/reset/password/:token',controller.resetPassword);
+routes.get('/me',middleware.validateUserToken,controller.getMyProfile)
 
 
 module.exports = routes;

@@ -207,6 +207,18 @@ class UserServices{
         }
         return responseObj;
     }
+
+    static async getMyProfile(req){
+        let responseObject = utils.responseFormat();
+        try {
+            let user = await userModel.findOne({_id: req.user._id});
+            responseObject.data = user;
+            return responseObject;
+        } catch (error) {
+            logger.error(error,"Error in get my Profile service")
+            throw error;
+        }
+    }
 }
 
 module.exports = UserServices;

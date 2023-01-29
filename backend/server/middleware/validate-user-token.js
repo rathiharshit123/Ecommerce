@@ -4,14 +4,14 @@ const jwt = require("jsonwebtoken");
 const config = require("../../config/config");
 const userModel = require("../user/models/user-model");
 
-const validateAdminToken = async function(req,res,next){
+const validateUserToken = async function(req,res,next){
     let responseObject = utils.responseFormat();
     try {
         const {token} = req.cookies;
     
         if(!token){
             responseObject= utils.response(responseCode.AUTHENTICATION_FAILED);
-            res.json(responseObject);
+            return res.json(responseObject);
         }
 
         let decodedData = jwt.verify(token,config.JWT_SECRET);
@@ -21,9 +21,9 @@ const validateAdminToken = async function(req,res,next){
         }
     } catch (error) {
         responseObject= utils.response(responseCode.AUTHENTICATION_FAILED);
-        res.json(responseObject);
+        return res.json(responseObject);
     }
     return res.json(utils.response(responseCode.AUTHENTICATION_FAILED));
 }
 
-module.exports = validateAdminToken;
+module.exports = validateUserToken;
