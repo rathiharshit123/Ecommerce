@@ -5,9 +5,11 @@ const responseCode = require("../../utils/response-code");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const config = require("../../../config/config");
-
+const crypto = require("crypto");
+const constants = require("../../utils/constants");
+const sendEmail = require("../../utils/send-email");
 class UserServices{
-    static async    registerUser(requestObj){
+    static async registerUser(requestObj){
         let responseObject = utils.responseFormat();
         try {
             const {name,email,password,avatar} = requestObj;
@@ -112,6 +114,98 @@ class UserServices{
         } catch (error) {
             throw error;
         }
+    }
+
+    static async forgotPassword(req){
+        let responseObject = utils.responseFormat();
+        try {
+            let {email} = req.body;
+            var user = await userModel.findOne({email});
+
+            if(!user){
+                responseObject = utils.response(responseCode.CANNNOT_FIND_ACCOUNT);
+                return responseObject;
+            }
+
+            const resetToken = crypto.randomBytes(20).toString("hex");
+
+            let resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+            let resetPasswordExpire = Date.now() + constants.RESET_PASSWORD_EXPIRE_TIME;
+
+            await userModel.findByIdAndUpdate(user._id,{
+                resetPasswordExpire,
+                resetPasswordToken,
+            })
+
+            const resetPasswordUrl = `${req.protocol}://${req.get('host')}/api/v1/user/password/reset/${resetToken}`
+            
+            const emailMessage = `Your reset password url is : \n\n ${resetPasswordUrl} \n\n If you have not requested this email, please ignore it. \n\n Please note this link is valid for 15 minutes only`
+            
+            try {
+                let emailResponse = await sendEmail({
+                    email,
+                    subject: "Ecommerce Password Recovery",
+                    message: emailMessage,
+                })
+
+                if(emailResponse?.status){
+                    responseObject = utils.response(responseCode.EMAIL_SENT_SUCCESFULLY,{},`Email sent to ${email} successfully`)    
+                    return responseObject;
+                }
+                else{
+                    responseObject = utils.response(responseCode.UNABLE_TO_SEND_EMAIL);
+                }
+            } catch (error) {
+                logger.error(error);
+                await userModel.findByIdAndUpdate(user._id,{
+                    resetPasswordExpire: null,
+                    resetPasswordToken: null,
+                })
+                throw error;
+            }
+            return responseObject;
+
+        } catch (error) {
+            logger.error(error);
+            throw error;
+        }
+    }
+
+    static async resetPassword(req){
+        let responseObj = utils.responseFormat();
+        try {
+            let {password, confirmPassword} = req.body;
+            let {token} = req.params;
+            
+            const resetPasswordToken = crypto.createHash("sha256").update(token).digest('hex');
+            const user = await userModel.findOne({
+                resetPasswordToken,
+                resetPasswordExpire: {$gt: Date.now()}
+            })
+            
+            if(!user){
+                responseObj = utils.response(responseCode.FORGOT_PASSWORD_TOKEN_INVALID);
+                return responseObj;
+            }
+            
+            if(password != confirmPassword){
+                responseObj = utils.response(responseCode.PASSWORD_DOES_NOT_MATCH);
+                return responseObj;
+            }
+
+            let hashedPassword = await this.getHashPassword(password);
+            let res = await userModel.findByIdAndUpdate(user._id,{
+                password: hashedPassword,
+                resetPasswordToken: null,
+                resetPasswordExpire: null,
+            })
+            console.log(res,"DB RES")
+            responseObj = utils.response(responseCode.SUCCESS,{},'Password Changed Succesfully')
+        } catch (error) {
+            logger.error(error);
+            throw error;
+        }
+        return responseObj;
     }
 }
 

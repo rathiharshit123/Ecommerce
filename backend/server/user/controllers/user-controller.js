@@ -63,10 +63,37 @@ const logout = async function (req,res) {
     res.json(responseObject);
 }
 
+const forgotPassword = async function (req,res) {
+    let responseObject = utils.responseFormat();
+    try {
+        const response = await UserServices.forgotPassword(req);
+        responseObject = utils.response(response.code,response.data,response.message);
+    } catch (error) {
+        logger.error(error);
+        responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
+    }
+    res.json(responseObject);
+}
+
+const resetPassword = async function (req,res) {
+    let responseObject = utils.responseFormat();
+    try {
+        const response = await UserServices.resetPassword(req);
+        console.log(response,"CONTROLLER RESPONSE")
+        responseObject = utils.response(response.code,response.data,response.message);
+    } catch (error) {
+        logger.error(error);
+        responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
+    }
+    res.json(responseObject);
+}
+
 
 
 module.exports = {
     registerUser,
     login,
     logout,
+    forgotPassword,
+    resetPassword,
 }

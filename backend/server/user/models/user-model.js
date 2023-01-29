@@ -1,5 +1,7 @@
 const connection = require("../../utils/mongo-connection").connection;
 const mongoose = require("mongoose");
+const crypto = require("crypto");
+const constants = require("../../utils/constants");
 
 const userschema = new mongoose.Schema({
     name: {
@@ -38,5 +40,12 @@ const userschema = new mongoose.Schema({
 },{
     timestamps: true,
 })
+
+userschema.methods.getResetPasswordToken = async function(){
+    const resetToken = crypto.randomBytes(20).toString("hex");
+
+    this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+    this.resetPasswordExpire = Date.now() + constants.RESET_PASSWORD_EXPIRE_TIME;
+}
 
 module.exports = connection.model("User",userschema)
