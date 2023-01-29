@@ -1,5 +1,8 @@
-const addProductValidation = require("./add-product");
+const addProductValidation = require("./add-product-vailidation");
+const addReviewValidation = require("./add-review-validation");
+
 
 module.exports = {
-    addProductValidation
+    addProductValidation,
+    addReviewValidation
 }

@@ -7,8 +7,8 @@ const middleware = require("../middleware");
 
 routes.get('/getAll',middleware.validateUserToken,controller.getAllProducts);
 routes.get('/get/:id',middleware.validateUserToken,controller.getProduct)
-routes.post('/reviews')
-routes.post("/create/review",middleware.validateUserToken,controller.giveReview)
+
+routes.post("/create/review",middleware.validateUserToken,validation.addReviewValidation ,controller.giveReview)
 routes.get("/reviews",controller.getAllReviews)
 routes.delete("/delete/review", middleware.validateUserToken, controller.deleteReview)
 
