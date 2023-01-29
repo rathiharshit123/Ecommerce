@@ -1,7 +1,5 @@
 const connection = require("../../utils/mongo-connection").connection;
 const mongoose = require("mongoose");
-const crypto = require("crypto");
-const constants = require("../../utils/constants");
 
 const userschema = new mongoose.Schema({
     name: {
