@@ -9,6 +9,8 @@ routes.get('/logout',middleware.validateUserToken,controller.logout)
 routes.post('/forgot/password', controller.forgotPassword);
 routes.put('/reset/password/:token',controller.resetPassword);
 routes.get('/me',middleware.validateUserToken,controller.getMyProfile)
+routes.put('/update/password',middleware.validateUserToken,controller.updatePassword);
+routes.put('/update/profile',middleware.validateUserToken,controller.updateMyProfile)
 
 
 module.exports = routes;

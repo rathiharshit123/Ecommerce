@@ -9,5 +9,6 @@ module.exports ={
     1004: 'Unable to send email right now. Please try after sometime',
     1005: 'We cannot find an account linked with this email',
     1006: 'Password does not match',
-    1007: 'Reset password token is invalid or has been expired'
+    1007: 'Reset password token is invalid or has been expired',
+    1008: 'Please enter your correct password'
 }

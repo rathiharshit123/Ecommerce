@@ -99,6 +99,29 @@ const getMyProfile = async function (req,res){
     res.json(responseObject);
 }
 
+const updatePassword = async function (req,res){
+    let responseObject = utils.responseFormat();
+    try {
+        const response = await UserServices.updatePassword(req);
+        responseObject = utils.response(response.code,response.data,response.message);
+    } catch (error) {
+        logger.error(error,"Error in updatePassword Controller")
+        responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
+    }
+    res.json(responseObject);
+}
+
+const updateMyProfile = async function (req,res){
+    let responseObject = utils.responseFormat();
+    try {
+        const response = await UserServices.updateMyProfile(req);
+        responseObject = utils.response(response.code,response.data,response.message);
+    } catch (error) {
+        logger.error(error,"Error in updateMyProfile Controller")
+        responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
+    }
+    res.json(responseObject);
+}
 
 
 module.exports = {
@@ -108,4 +131,6 @@ module.exports = {
     forgotPassword,
     resetPassword,
     getMyProfile,
+    updateMyProfile,
+    updatePassword
 }

@@ -211,13 +211,70 @@ class UserServices{
     static async getMyProfile(req){
         let responseObject = utils.responseFormat();
         try {
-            let user = await userModel.findOne({_id: req.user._id});
+            let user = await userModel.findById(req.user._id);
             responseObject.data = user;
             return responseObject;
         } catch (error) {
             logger.error(error,"Error in get my Profile service")
             throw error;
         }
+    }
+
+    static async updatePassword(req){
+        let responseObject = utils.responseFormat();
+        try {
+            let {oldPassword,newPassword,confirmPassword} = req.body;
+
+            const user = await userModel.findById(req.user._id).select("+password");
+            let passwordMatch = await bcrypt.compare(oldPassword,user.password);
+
+            if(!passwordMatch){
+                responseObject = utils.response(responseCode.INVALID_PASSWORD);
+                return responseObject;
+            }
+
+            if(newPassword!=confirmPassword){
+                responseObject = utils.response(responseCode.PASSWORD_DOES_NOT_MATCH);
+                return responseObject;
+            }
+
+            let hashedPassword = await this.getHashPassword(newPassword);
+
+            await userModel.findByIdAndUpdate(user._id,{
+                password: hashedPassword,
+            })
+            responseObject = utils.response(responseCode.SUCCESS,{},"Password Changed Succsefully")
+
+        } catch (error) {
+            logger.error(error,"Error in updatePassword Service")
+        }
+        return responseObject;
+    }
+
+    static async updateMyProfile(req){
+        let responseObject = utils.responseFormat();
+        try {
+            let {name,email} = req.body;
+
+            let checkEmailExist = await userModel.findOne({email});
+
+            if(checkEmailExist){
+                responseObject = utils.response(responseCode.EMAIL_ALREADY_EXIST);
+                return responseObject;
+            }
+            
+            const user = await userModel.findById(req.user._id);
+
+            await userModel.findByIdAndUpdate(user._id,{
+                name,
+                email,
+            })
+            responseObject = utils.response(responseCode.SUCCESS,{},"Profile Updated Succesfully")
+        } catch (error) {
+            logger.error(error,"Error in updateMyProfile  Service");
+            throw error;
+        }
+        return responseObject;
     }
 }
 
