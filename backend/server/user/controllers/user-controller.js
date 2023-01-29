@@ -10,7 +10,7 @@ const registerUser = async function (req,res) {
         const response = await UserServices.registerUser(req.body);
         responseObject = utils.response(response.code,response.data);
     } catch (error) {
-        logger.error(error);
+        logger.error(error,"Error in registerUser Controller");
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
     if(responseObject?.data?.token){
@@ -32,7 +32,7 @@ const login = async function (req,res) {
         const response = await UserServices.login(req.body);
         responseObject = utils.response(response.code,response.data);
     } catch (error) {
-        logger.error(error);
+        logger.error(error,"Error in login Controller");
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
     if(responseObject?.data?.token){
@@ -57,7 +57,7 @@ const logout = async function (req,res) {
         })
         responseObject = utils.response(responseCode.LOGOUT_SUCCESFULL);
     } catch (error) {
-        logger.error(error);
+        logger.error(error,"Error in logout Controller");
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
     res.json(responseObject);
@@ -69,7 +69,7 @@ const forgotPassword = async function (req,res) {
         const response = await UserServices.forgotPassword(req);
         responseObject = utils.response(response.code,response.data,response.message);
     } catch (error) {
-        logger.error(error);
+        logger.error(error,"Error in forgotPassword Controller");
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
     res.json(responseObject);
@@ -79,13 +79,21 @@ const resetPassword = async function (req,res) {
     let responseObject = utils.responseFormat();
     try {
         const response = await UserServices.resetPassword(req);
-        console.log(response,"CONTROLLER RESPONSE")
         responseObject = utils.response(response.code,response.data,response.message);
     } catch (error) {
-        logger.error(error);
+        logger.error(error,"Error in resetPassword Controller");
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
     res.json(responseObject);
+}
+
+const getMyProfile = async function (req,res){
+    let responseObject = utils.responseFormat();
+    try {
+        
+    } catch (error) {
+        logger.error(error,"Error in getMyProfile Controller")
+    }
 }
 
 

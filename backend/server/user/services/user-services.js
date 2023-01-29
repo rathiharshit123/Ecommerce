@@ -37,7 +37,7 @@ class UserServices{
             }
             responseObject.data = data;
         } catch (error) {
-            logger.error(error);
+            logger.error(error,"Error in registerUser Service");
             throw error;
         }
         return responseObject
@@ -69,7 +69,7 @@ class UserServices{
             }
             responseObject.data = data;
         } catch (error) {
-            logger.error(error);
+            logger.error(error,"Error in login Service");
             throw error;
         }
         return responseObject;
@@ -87,7 +87,7 @@ class UserServices{
             return responseObject;
 
         } catch (error) {
-            logger.error(error);
+            logger.error(error,"Error in logut Service");
             throw error;
         }
     }
@@ -98,7 +98,7 @@ class UserServices{
             const hashPassword = await bcrypt.hash(password,salt);
             return hashPassword;
         } catch (error) {
-            logger.error(error);
+            logger.error(error,"Error in getHashPassword Service");
             throw error;
         }
     }
@@ -112,6 +112,7 @@ class UserServices{
             let token = jwt.sign(tokenValue, config.JWT_SECRET,{expiresIn: config.JWT_EXPIRY});
             return token;
         } catch (error) {
+            logger.error(error,"Error in createToken Service")
             throw error;
         }
     }
@@ -156,7 +157,7 @@ class UserServices{
                     responseObject = utils.response(responseCode.UNABLE_TO_SEND_EMAIL);
                 }
             } catch (error) {
-                logger.error(error);
+                logger.error(error,"Error in sending mail through nodemailer");
                 await userModel.findByIdAndUpdate(user._id,{
                     resetPasswordExpire: null,
                     resetPasswordToken: null,
@@ -166,7 +167,7 @@ class UserServices{
             return responseObject;
 
         } catch (error) {
-            logger.error(error);
+            logger.error(error,"Error in forgotPassword Service");
             throw error;
         }
     }
@@ -194,15 +195,14 @@ class UserServices{
             }
 
             let hashedPassword = await this.getHashPassword(password);
-            let res = await userModel.findByIdAndUpdate(user._id,{
+            await userModel.findByIdAndUpdate(user._id,{
                 password: hashedPassword,
                 resetPasswordToken: null,
                 resetPasswordExpire: null,
             })
-            console.log(res,"DB RES")
             responseObj = utils.response(responseCode.SUCCESS,{},'Password Changed Succesfully')
         } catch (error) {
-            logger.error(error);
+            logger.error(error,"Error in resetPassword Service");
             throw error;
         }
         return responseObj;
