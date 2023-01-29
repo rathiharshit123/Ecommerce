@@ -198,13 +198,27 @@ class ProductServices {
         return responseObject;
     }
     
-    static async getAllReviews(requestObj){
+    static async getAllReviews(req){
         let responseObject = utils.responseFormat();
         try {
-            
+            let {productId} = req.query;
+            if(productId.length!=24){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            const product = await productModel.findById(productId);
+
+            if(!product){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+            responseObject.data.reviews = product.reviews;
         } catch (error) {
-            logger.error(error,"Error in createReview Service")
+            logger.error(error,"Error in createReview Service");
+            throw error;
         }
+        return responseObject;
     }
 }
 
