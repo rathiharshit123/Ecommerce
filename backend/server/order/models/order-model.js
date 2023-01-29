@@ -33,4 +33,4 @@ const orderSchema = new mongoose.Schema({
     timestamps:true
 })
 
-module.exports = connection.Schema("Orders",orderSchema)
+module.exports = connection.model("Orders",orderSchema)
