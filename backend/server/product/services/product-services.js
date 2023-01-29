@@ -149,7 +149,6 @@ class ProductServices {
                 rating: Number(rating),
                 comment,
             }
-            console.log(userReview);
 
             let dataToUpdate = {};
 
@@ -216,6 +215,56 @@ class ProductServices {
             responseObject.data.reviews = product.reviews;
         } catch (error) {
             logger.error(error,"Error in createReview Service");
+            throw error;
+        }
+        return responseObject;
+    }
+
+    static async deleteReview(req){
+        let responseObject = utils.responseFormat();
+        try {
+            let {productId, reviewId} = req.query;
+
+            if(productId.length!=24){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            const product = await productModel.findById(productId);
+
+            if(!product){
+                responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
+                return responseObject;
+            }
+
+            const reviewArr = product.reviews;
+
+            let updatedReviewArr = reviewArr.filter((review)=>{
+                return review._id.toString() != reviewId.toString()
+            })
+
+            let avg = 0;
+
+            updatedReviewArr.forEach((review)=>{
+                avg+= review.rating;
+            })
+
+            const ratings = avg/updatedReviewArr.length || 0
+            const numberOfReviews = updatedReviewArr.length;
+
+            let dataToUpdate = {
+                reviews: updatedReviewArr,
+                ratings,
+                numberOfReviews
+            }
+            console.log(dataToUpdate,"DATATOUPDATE")
+
+            await productModel.findByIdAndUpdate(productId,dataToUpdate);
+
+            responseObject = utils.response(responseCode.SUCCESS,{},"Review Deleted Successfully")
+
+        } catch (error) {
+            logger.error(error,"Error in deleteReview Service");
             throw error;
         }
         return responseObject;

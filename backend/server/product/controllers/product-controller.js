@@ -88,6 +88,18 @@ const getAllReviews = async function(req,res){
     res.json(responseObject);
 }
 
+const deleteReview = async function(req,res){
+    let responseObject = util.responseFormat();
+    try {
+        let response = await ProductServices.deleteReview(req);
+        responseObject = util.response(response.code,response.data,response.message);
+    } catch (error) {
+        logger.info(error,"error in deleteReview Controller")
+        responseObject = util.response(responseCode.SOME_INTERNAL_ERROR);
+    }
+    res.json(responseObject);
+}
+
 module.exports = {
     getAllProducts,
     addProduct,
@@ -95,5 +107,6 @@ module.exports = {
     deleteProduct,
     getProduct,
     giveReview,
-    getAllReviews
+    getAllReviews,
+    deleteReview
 }
