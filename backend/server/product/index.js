@@ -7,9 +7,9 @@ const middleware = require("../middleware");
 
 routes.get('/getAll',middleware.validateUserToken,controller.getAllProducts);
 routes.get('/get/:id',middleware.validateUserToken,controller.getProduct)
-routes.post('/add',middleware.validateAdminToken,validation.addProductValidation, controller.addProduct);
-routes.put('/update/:id',middleware.validateAdminToken,controller.updateProduct);
-routes.delete('/delete/:id',middleware.validateAdminToken,controller.deleteProduct);
+routes.post('/admin/add',middleware.validateAdminToken,validation.addProductValidation, controller.addProduct);
+routes.put('/admin/update/:id',middleware.validateAdminToken,controller.updateProduct);
+routes.delete('/admin/delete/:id',middleware.validateAdminToken,controller.deleteProduct);
 
 
 module.exports = routes;
