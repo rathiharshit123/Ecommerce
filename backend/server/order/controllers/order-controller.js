@@ -12,6 +12,7 @@ const createOrder = async function(req,res){
         logger.error(error,"Error in createOrder controller")
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
+    res.json(responseObject);
 }
 
 const getOrder = async function(req,res){
@@ -23,6 +24,7 @@ const getOrder = async function(req,res){
         logger.error(error,"Error in getOrder controller")
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
+    res.json(responseObject);
 }
 
 const myOrders = async function(req,res){
@@ -34,6 +36,7 @@ const myOrders = async function(req,res){
         logger.error(error,"Error in myOrders controller")
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
+    res.json(responseObject);
 }
 
 const getAllOrders = async function(req,res){
@@ -45,6 +48,7 @@ const getAllOrders = async function(req,res){
         logger.error(error,"Error in getAllOrders controller")
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
+    res.json(responseObject);
 }
 
 const updateOrder = async function(req,res){
@@ -56,6 +60,7 @@ const updateOrder = async function(req,res){
         logger.error(error,"Error in updateOrder controller")
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
+    res.json(responseObject);
 }
 
 const deleteOrder = async function(req,res){
@@ -67,6 +72,7 @@ const deleteOrder = async function(req,res){
         logger.error(error,"Error in deleteOrder controller")
         responseObject = utils.response(responseCode.SOME_INTERNAL_ERROR);
     }
+    res.json(responseObject);
 }
 
 module.exports = {

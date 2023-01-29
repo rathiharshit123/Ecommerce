@@ -4,7 +4,7 @@ const routes = express.Router();
 const controller = require("./controllers/order-controller")
 const middleware = require("../middleware");
 
-routes.post("/new", middleware.validateUserToken, controller.createOrder);
+routes.post("/create", middleware.validateUserToken, controller.createOrder);
 routes.get("/get/:id",middleware.validateUserToken,controller.getOrder);
 routes.get("/me",middleware.validateUserToken, controller.myOrders);
 

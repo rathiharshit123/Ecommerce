@@ -17,10 +17,8 @@ class OrderServices {
                 totalPrice
             } = req.body;
 
-            let order = await orderModel.save({
+            let order = await orderModel.create({
                 shippingInfo,
-                pinCode,
-                phoneNumber,
                 orderItems,
                 paymentInfo,
                 itemsPrice,
