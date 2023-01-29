@@ -1,7 +1,6 @@
 const logger = require("../../utils/logger");
 const utils = require("../../utils/util");
-const userModel = require("../models/user-model");
-const productModel = require("../models/product-model");
+const userModel = require("../../user/models/user-model");
 const responseCode = require("../../utils/response-code");
 
 class AdminServices {
@@ -9,11 +8,11 @@ class AdminServices {
         let responseObject = utils.responseFormat();
         try {
             let totalUsers = await userModel.countDocuments();
-            let userData = await userModel.find({});
+            let userList = await userModel.find({});
 
             let data = {
                 totalUsers,
-                userData
+                userList
             }
             responseObject.data = data;
 
@@ -77,6 +76,7 @@ class AdminServices {
         } catch (error) {
             logger.error(error,"Error in updateUser in AdminService")
         }
+        return responseObject;
     }
 
     static async deleteUser(req){
@@ -95,12 +95,13 @@ class AdminServices {
                 responseObject = utils.response(responseCode.USER_NOT_FOUND);
                 return responseObject;
             }
-
-            userModel.deleteOne({_id: userData._id});
+            let res = await userModel.deleteOne({_id:userData._id});
+            console.log(res);
             responseObject = utils.response(responseCode.SUCCESS,{},"Profile deleted Succesfully")
         } catch (error) {
             logger.error(error,"Error in updateUser in AdminService")
         }
+        return responseObject;
     }
 }
 
