@@ -1,14 +1,42 @@
 const logger = require("../../utils/logger");
+const responseCode = require("../../utils/response-code");
 const utils = require("../../utils/util");
+const orderModel = require("../models/order-model");
 
 class OrderServices {
-    static async createOrder (requestObj){
+    static async createOrder (req){
         let responseObject = utils.responseFormat();
         try {
-            
+            const {
+                shippingInfo,
+                orderItems,
+                paymentInfo,
+                itemsPrice,
+                taxPrice,
+                shippingPrice,
+                totalPrice
+            } = req.body;
+
+            let order = await orderModel.save({
+                shippingInfo,
+                pinCode,
+                phoneNumber,
+                orderItems,
+                paymentInfo,
+                itemsPrice,
+                taxPrice,
+                shippingPrice,
+                totalPrice,
+                paidAt: Date.now(),
+                userId: req.user._id
+            })
+
+            responseObject = utils.response(responseCode.SUCCESS,order,"Order Created succesfully");
         } catch (error) {
-            logger.error(error,"Error in creatOrder Service")
+            logger.error(error,"Error in creatOrder Service");
+            throw error
         }
+        return responseObject;
     }
 
     static async myOrders (requestObj){
