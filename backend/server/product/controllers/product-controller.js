@@ -1,6 +1,5 @@
 const logger = require("../../utils/logger");
 const util =require("../../utils/util");
-const path = require("path");
 const responseCode = require('../../utils/response-code');
 
 const ProductServices = require("../services/product-services");
