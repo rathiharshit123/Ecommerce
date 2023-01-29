@@ -141,6 +141,8 @@ class OrderServices {
             }
 
             await orderModel.findByIdAndUpdate(orderId,dataToUpdate)
+            responseObject = utils.response(responseCode.SUCCESS,{},"Order Updated Succesfully")
+
         } catch (error) {
             logger.error(error,"Error in updateOrder Service")
             throw error
@@ -148,13 +150,30 @@ class OrderServices {
         return responseObject
     }
 
-    static async deleteOrder (requestObj){
+    static async deleteOrder (req){
         let responseObject = utils.responseFormat();
         try {
+            const orderId = req.params.id;
+
+            if(orderId.length!=24){
+                responseObject = utils.response(responseCode.ORDER_NOT_FOUND);
+                return responseObject;
+            }
+
+            const orderDetails = await orderModel.findById(orderId).populate("userId","name email");
+            
+            if(!orderDetails){
+                responseObject = utils.response(responseCode.ORDER_NOT_FOUND);
+                return responseObject
+            }
+            await orderModel.deleteOne({_id:orderId})
+            responseObject = utils.response(responseCode.SUCCESS,{},"Order Deleted Succesfully")
             
         } catch (error) {
             logger.error(error,"Error in deleteOrder Service")
+            throw error;
         }
+        return responseObject;
     }
 
     static async updateStock(productId,quantity){
