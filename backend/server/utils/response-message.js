@@ -11,5 +11,7 @@ module.exports ={
     1006: 'Password does not match',
     1007: 'Reset password token is invalid or has been expired',
     1008: 'Please enter your correct password',
-    1009: 'Invalid user id'
+    1009: 'Invalid user id',
+    1010: 'Unable to find an order',
+    1011: 'Order is already delivered'
 }
