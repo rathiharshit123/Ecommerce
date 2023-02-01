@@ -5,8 +5,8 @@ const controller = require('./controllers/product-controller');
 const validation = require('./validations');
 const middleware = require("../middleware");
 
-routes.get('/getAll',middleware.validateUserToken,controller.getAllProducts);
-routes.get('/get/:id',middleware.validateUserToken,controller.getProduct)
+routes.get('/getAll',controller.getAllProducts);
+routes.get('/get/:id',controller.getProduct)
 
 routes.post("/create/review",middleware.validateUserToken,validation.addReviewValidation ,controller.giveReview)
 routes.get("/reviews",controller.getAllReviews)
