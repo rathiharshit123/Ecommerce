@@ -3,11 +3,13 @@ const dotenv = require('dotenv');
 dotenv.config({path: path.resolve(__dirname, './.env')})
 
 const cookieParser = require("cookie-parser");
+const cors = require('cors');
 
 const express = require("express");
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
 const routes = require('./server/routes');
 routes(app);
