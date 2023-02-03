@@ -5,8 +5,8 @@ module.exports = async (req,res,next)=>{
     try {
         const schema = Joi.object().keys({
             productId: Joi.string().required(),
-            rating: Joi.string().number(),
-            comment: Joi.string().optional
+            rating: Joi.number().required(),
+            comment: Joi.string().optional(),
         })
         req.body = await Joi.validate(req.body,schema);
         next();
