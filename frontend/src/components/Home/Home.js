@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { CgMouse } from "react-icons/cg";
 import "./Home.css";
-import Product from "./Product.js";
+import ProductCard from "./ProductCard.js";
 import MetaData from "../layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
-import { getProduct } from "../../actions/productAction";
+import { clearErrors, getAllProduct } from "../../actions/productAction";
 import Loader from "../layout/Loader/Loader";
 import { useAlert } from "react-alert";
 
@@ -17,14 +17,12 @@ const Home = () => {
   );
   
   useEffect(() => {
-    console.log(error,"ERORRR IN HOME COMPONENT")
     if(error){
-        return alert.error(error)
+        alert.error(error);
+        dispatch(clearErrors())
     }
-
-    dispatch(getProduct());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch,error]);
+    dispatch(getAllProduct());
+  }, [dispatch,error,alert]);
 
   return (
     <>
@@ -48,7 +46,7 @@ const Home = () => {
 
           <div className="container" id="container">
             {products &&
-              products.map((product) => <Product product={product} />)}
+              products.map((product) => <ProductCard key={product._id} product={product} />)}
           </div>
         </>
       )}
