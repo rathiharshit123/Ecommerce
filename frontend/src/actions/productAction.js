@@ -3,11 +3,13 @@ import { ALL_PRODUCT_FAIL, ALL_PRODUCT_REQUEST,ALL_PRODUCT_SUCCESS, CLEAR_ERRORS
     PRODUCT_DETAILS_FAIL,PRODUCT_DETAILS_SUCCESS,PRODUCT_DETAILS_REQUEST } from "../constants/productConstants";
 
 
-export const getAllProduct = ()=>  async (dispatch)=>{
+export const getAllProduct = (keyword = '')=>  async (dispatch)=>{
     try {
         dispatch({type: ALL_PRODUCT_REQUEST})
         
-        let response = await axios.get("/api/v1/product/getAll")
+        let url = `/api/v1/product/getAll?keyword=${keyword}`
+
+        let response = await axios.get(url)
         if(response?.data?.code!==200){
             dispatch({
                 type: ALL_PRODUCT_FAIL,
