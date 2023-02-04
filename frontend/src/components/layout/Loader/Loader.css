@@ -13,7 +13,7 @@
     color: tomato;
     border-bottom: 5px solid rgb(59, 55, 55);
     border-radius: 50%;
-    animation: loadingRotate 800ms;
+    animation: loadingRotate 800ms linear infinite;
 }
 
 @keyframes loadingRotate {

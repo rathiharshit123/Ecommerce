@@ -6,17 +6,26 @@ import MetaData from "../layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../actions/productAction";
 import Loader from "../layout/Loader/Loader";
+import { useAlert } from "react-alert";
 
 const Home = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getProduct());
-  }, [dispatch]);
+  const alert = useAlert();
 
-  const { loading, error, products, productCount } = useSelector(
+  const { loading, error, products, /*productCount*/ } = useSelector(
     (state) => state.products
   );
-  console.log(products, "PRODDD");
+  
+  useEffect(() => {
+    console.log(error,"ERORRR IN HOME COMPONENT")
+    if(error){
+        return alert.error(error)
+    }
+
+    dispatch(getProduct());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch,error]);
+
   return (
     <>
       {loading ? (

@@ -5,7 +5,6 @@ import WebFont from 'webfontloader';
 import React from 'react';
 import Footer from './components/layout/Footer/Footer';
 import Home from './components/Home/Home';
-import Loader from './components/layout/Loader/Loader';
 
 
 function App() {
