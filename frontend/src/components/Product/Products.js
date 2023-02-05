@@ -1,20 +1,26 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect,useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import './Product.css'
 import { clearErrors, getAllProduct } from '../../actions/productAction'
 import Loader from '../layout/Loader/Loader'
 import ProductCard from '../Home/ProductCard'
+import Pagination from 'react-js-pagination'
 
 const Products = ({match}) => {
     const dispatch = useDispatch();
 
-    const {products,productsCount,loading,error} = useSelector(state => state.products)
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const {products,productsCount,loading,error,resultPerPage} = useSelector(state => state.products)
     
     const keyword = match.params.keyword
     useEffect(() => {
-        dispatch(getAllProduct(keyword));
-    }, [dispatch,keyword])
+        dispatch(getAllProduct(keyword,currentPage));
+    }, [dispatch,keyword,currentPage])
     
+    const setCurrentPageNo = (e)=>{
+        setCurrentPage(e);
+    }
 
   return (
     <Fragment>
@@ -25,6 +31,26 @@ const Products = ({match}) => {
                     <ProductCard key={product._id} product = {product} />
                 ))}
             </div>
+
+            {productsCount > resultPerPage && (
+                <div className="paginationBox">
+                <Pagination
+                    activePage={currentPage}
+                    itemsCountPerPage={resultPerPage}
+                    totalItemsCount={productsCount}
+                    onChange={setCurrentPageNo}
+                    nextPageText="Next"
+                    prevPageText="Prev"
+                    firstPageText="1st"
+                    lastPageText="Last"
+                    itemClass="page-item"
+                    linkClass="page-link"
+                    activeClass="pageItemActive"
+                    activeLinkClass="pageLinkActive"
+                />
+            </div>
+            )}
+            
         </Fragment> }
     </Fragment>
   )

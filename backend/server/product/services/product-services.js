@@ -17,7 +17,8 @@ class ProductServices {
 
             let data = {
                 totalProducts,
-                list: allProducts
+                list: allProducts,
+                resultPerPage
             }
             responseObject.data = data;
         } catch (error) {
