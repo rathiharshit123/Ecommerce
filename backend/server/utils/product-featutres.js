@@ -47,9 +47,8 @@ class ProductFeatures {
     pagination(resultPerPage){
         let currentPage = Number(this.queryStr.page) || 1;
 
-        let prductsToSkip = resultPerPage * (currentPage-1);
-
-        this.query = this.query.limit(resultPerPage).skip(prductsToSkip);
+        let productsToSkip = resultPerPage * (currentPage-1);
+        this.query = this.query.limit(resultPerPage).skip(productsToSkip).clone();
         return this;
     }
 }

@@ -12,13 +12,17 @@ class ProductServices {
             let resultPerPage = constants.MAX_PRODUCTS_PER_PAGE;
             const totalProducts = await productModel.countDocuments();
 
-            const productFeatureObj = new ProductFeatures(productModel,requestObj);
-            const allProducts =  await productFeatureObj.search().filter().pagination(resultPerPage).query;
+            const productFeatureObj = new ProductFeatures(productModel.find(),requestObj);
+            const filteredProducts =  await productFeatureObj.search().filter().query;
+            let filteredProductsCount  = filteredProducts.length;
+
+            const allProducts = await productFeatureObj.pagination(resultPerPage).query;
 
             let data = {
                 totalProducts,
+                resultPerPage,
+                filteredProductsCount,
                 list: allProducts,
-                resultPerPage
             }
             responseObject.data = data;
         } catch (error) {
