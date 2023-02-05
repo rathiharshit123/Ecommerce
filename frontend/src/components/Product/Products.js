@@ -1,24 +1,44 @@
 import React, {Fragment, useEffect,useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import './Product.css'
+import './Products.css'
 import { clearErrors, getAllProduct } from '../../actions/productAction'
 import Loader from '../layout/Loader/Loader'
 import ProductCard from '../Home/ProductCard'
 import Pagination from 'react-js-pagination'
 import { Typography, Slider } from '@material-ui/core'
+import { useAlert } from 'react-alert'
+import MetaData from '../layout/MetaData'
+
+const categories = [
+    "Laptop",
+    "Clothing",
+    "Bottom",
+    "Tops",
+    "Attire",
+    "Camera",
+    "SmartPhones",
+  ];
 
 const Products = ({match}) => {
     const dispatch = useDispatch();
+    const alert = useAlert();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [price, setPrice] = useState([0,25000]);
+    const [category, setCategory] = useState("");
+    const [ratings, setRatings] = useState(0);
+
 
     const {products,productsCount,loading,error,resultPerPage,filteredProductsCount} = useSelector(state => state.products)
     
     const keyword = match.params.keyword
     useEffect(() => {
-        dispatch(getAllProduct(keyword,currentPage,price));
-    }, [dispatch,keyword,currentPage,price])
+        if(error){
+            alert.error(error);
+            dispatch(clearErrors());
+        }
+        dispatch(getAllProduct(keyword,currentPage,price,category,ratings));
+    }, [dispatch,keyword,currentPage,price,category,ratings,alert,error])
     
     const setCurrentPageNo = (e)=>{
         setCurrentPage(e);
@@ -31,6 +51,8 @@ const Products = ({match}) => {
   return (
     <Fragment>
         {loading? <Loader/> : <Fragment>
+
+        <MetaData title='Products -- Ecommerce'/>
             <h2 className="productsHeading">Products</h2>
             <div className="products">
                 {products && products.map((product)=>(
@@ -38,7 +60,7 @@ const Products = ({match}) => {
                 ))}
             </div>
 
-            <div className="filterBox">
+            {keyword && <div className="filterBox">
                 <Typography>Price</Typography>
                 <Slider 
                     value={price}
@@ -48,7 +70,34 @@ const Products = ({match}) => {
                     min={0}
                     max={25000}
                 />
-            </div>
+
+                <Typography>Categories</Typography>
+                    <ul className="categoryBox">
+                    {categories.map((category) => (
+                        <li
+                        className="category-link"
+                        key={category}
+                        onClick={() => setCategory(category)}
+                        >
+                        {category}
+                        </li>
+                    ))}
+                    </ul>
+
+                <fieldset>
+                    <Typography component="legend">Ratings Above</Typography>
+                    <Slider
+                        value={ratings}
+                        onChange={(e, newRating) => {
+                        setRatings(newRating);
+                        }}
+                        aria-labelledby="continuous-slider"
+                        valueLabelDisplay="auto"
+                        min={0}
+                        max={5}
+                    />
+                </fieldset>
+            </div> }
 
             {filteredProductsCount > resultPerPage && (
                 <div className="paginationBox">
