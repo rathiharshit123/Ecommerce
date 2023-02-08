@@ -1,15 +1,30 @@
-import React, { Fragment,useRef, useState } from 'react'
+import React, { Fragment,useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import  MailOutlineIcon  from '@material-ui/icons/MailOutline'
 import  LockOpenIcon  from '@material-ui/icons/LockOpen'
 import FaceIcon from '@material-ui/icons/Face'
 import './LoginSignup.css'
+import { useSelector, useDispatch } from 'react-redux'
+import { clearErrors, login , registerUser} from '../../../actions/userAction'
+import { useAlert } from 'react-alert'
+import Loader from '../Loader/Loader'
 
-const LoginSignup = () => {
-
+const LoginSignup = ({history}) => {
+    const dispatch = useDispatch(); 
+    const alert = useAlert();
     const loginTab = useRef(null);
     const switcherTab = useRef(null);
     const registerTab = useRef(null);
+
+    const {error,isAuthenticated,loading} = useSelector((state)=> state.user) 
+
+    useEffect(() => {
+      if(error){
+        alert.error(error);
+        dispatch(clearErrors());
+      }
+    }, [dispatch,error,alert,history,isAuthenticated])
+    
 
     const switchTabs = (e, tab) => {
         if (tab === "login") {
@@ -41,24 +56,28 @@ const LoginSignup = () => {
     
     const {name , email ,password} = user;
 
-    const loginSubmit = () => {
-        console.log("FORM SUBMIT")
+    const loginSubmit = (e) => {
+        console.log("HEREE")
+        e.preventDefault();
+        dispatch(login(loginEmail,loginPassword))
     }
 
     const registerSubmit = (e) => {
         e.preventDefault()
-
+        console.log("HEREEE");
         const myForm = new FormData();
         myForm.set("name",name)
         myForm.set("password",password)
         myForm.set("email",email)
         myForm.set("avatar",avatar)
+
+        dispatch(registerUser(myForm))
     }
 
     const registerDataChange = (e) => {
         if(e.target.name === 'avatar'){
-            const reader = FileReader();
-            reader.onLoad = () =>{
+            const reader = new FileReader();
+            reader.onload = () => {
                 if(reader.readyState === 2){
                     setAvatarPreview(reader.result);
                     setAvatar(reader.result)
@@ -70,9 +89,13 @@ const LoginSignup = () => {
         }
     }
 
+    if(isAuthenticated){
+        history.push("/account")
+    }
 
   return (
     <Fragment>
+        {loading ? <Loader/> : <Fragment>
         <div className="loginSignupContainer">
             <div className="loginSignupBox">
                 <div>
@@ -148,10 +171,12 @@ const LoginSignup = () => {
                          onChange={registerDataChange}
                           />
                     </div>
-                    <input type="button" value="Register" className='signupBtn'/>
+                    <input type="submit" value="Register" className='signupBtn'/>
                 </form>
             </div>
         </div>
+    </Fragment>}
+
     </Fragment>
     )
 }

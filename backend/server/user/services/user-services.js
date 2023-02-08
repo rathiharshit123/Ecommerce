@@ -16,7 +16,6 @@ class UserServices{
             const {name,email,password,avatar} = requestObj;
             
             const myCloud = await cloudinary.v2.uploader.upload(avatar,{folder: "avatars",width: 150,crop: "scale"})
-
             const checkUserExist = await userModel.findOne({email});
 
             if(checkUserExist){
@@ -31,7 +30,7 @@ class UserServices{
                 email,
                 password: hashedPassword,
                 avatar: {
-                    public_id: myCloud.public_id,
+                    publicId: myCloud.public_id,
                     url: myCloud.secure_url
                 }
             })
