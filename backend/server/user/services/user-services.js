@@ -8,11 +8,14 @@ const config = require("../../../config/config");
 const crypto = require("crypto");
 const constants = require("../../utils/constants");
 const sendEmail = require("../../utils/send-email");
+const cloudinary = require("cloudinary");
 class UserServices{
     static async registerUser(requestObj){
         let responseObject = utils.responseFormat();
         try {
             const {name,email,password,avatar} = requestObj;
+            
+            const myCloud = await cloudinary.v2.uploader.upload(avatar,{folder: "avatars",width: 150,crop: "scale"})
 
             const checkUserExist = await userModel.findOne({email});
 
@@ -27,7 +30,10 @@ class UserServices{
                 name,
                 email,
                 password: hashedPassword,
-                avatar
+                avatar: {
+                    public_id: myCloud.public_id,
+                    url: myCloud.secure_url
+                }
             })
 
             let token = this.createToken(user._id);
