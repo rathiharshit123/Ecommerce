@@ -1,5 +1,6 @@
 import { LOGIN_REQUEST, LOGIN_FAIL, LOGIN_SUCCESS, CLEAR_ERRORS,
-REGISTER_USER_FAIL,REGISTER_USER_REQUEST,REGISTER_USER_SUCCESS } from "../constants/userConstants"
+REGISTER_USER_FAIL,REGISTER_USER_REQUEST,REGISTER_USER_SUCCESS,
+LOAD_USER_REQUEST,LOAD_USER_FAIL,LOAD_USER_SUCCESS } from "../constants/userConstants"
 import axios from "axios"
 
 
@@ -35,6 +36,22 @@ export const registerUser = (registerData) => async (dispatch) => {
         let message = "Internal server Error"
         let data = {message};
         dispatch({type: LOGIN_FAIL,payload: data})
+    }
+}
+
+export const loadUser = () => async (dispatch) => {
+    try {
+        dispatch({type: LOAD_USER_REQUEST});
+        const response = await axios.get("/api/v1/user/me");
+        if (response.data.code === 200){
+            dispatch({type: LOAD_USER_SUCCESS, payload: response.data})
+        } else {
+            dispatch({type: LOAD_USER_FAIL,payload: response.data});
+        }
+    } catch (error) {
+        let message = "Internal server Error"
+        let data = {message};
+        dispatch({type: LOAD_USER_FAIL,payload: data})
     }
 }
 
