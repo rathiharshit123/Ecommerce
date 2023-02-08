@@ -8,6 +8,7 @@ import Home from './components/Home/Home';
 import ProductDetails from "./components/Product/ProductDetails.js"
 import Products from "./components/Product/Products.js"
 import Search from "./components/Product/Search.js"
+import LoginSignup from './components/layout/User/LoginSignup';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
       <Route exact path="/products" component={Products} />    
       <Route exact path="/products/:keyword" component={Products} />    
       <Route exact path="/search" component={Search}/>
+      <Route exact path="/login" component={LoginSignup} />
       <Footer/>
     </Router>
   );
