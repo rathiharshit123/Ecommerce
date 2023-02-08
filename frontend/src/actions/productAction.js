@@ -13,50 +13,32 @@ export const getAllProduct = (keyword = '', currentPage = 1, price = [0,25000], 
             url += `&category=${category}`
         }
         let response = await axios.get(url)
-        if(response?.data?.code!==200){
-            dispatch({
-                type: ALL_PRODUCT_FAIL,
-                payload: response.data.message
-            })
+        if(response?.data?.code === 200){
+            dispatch({type: ALL_PRODUCT_SUCCESS,payload:response.data})
         } else {
-            dispatch({
-                type: ALL_PRODUCT_SUCCESS,
-                payload: response.data
-            })
+            dispatch({type: ALL_PRODUCT_FAIL, payload: response.data})
         }
-
     } catch (error) {
-        dispatch({
-            type: ALL_PRODUCT_FAIL,
-            payload: error
-        })
+        let message = "Internal server Error"
+        let data = {message};
+        dispatch({type: ALL_PRODUCT_FAIL,payload: data})
     }
 }
 
 export const getProduct = (id)=> async (dispatch) => {
     try {
-        console.log("INSIDE ACTION")
         dispatch({type: PRODUCT_DETAILS_REQUEST});
 
         let response = await axios.get(`/api/v1/product/get/${id}`);
-        console.log(response,"RESPONSE FROM APII")
-        if(response?.data?.code!==200){
-            dispatch({
-                type: PRODUCT_DETAILS_FAIL,
-                payload: response.data.message
-            })
+        if(response?.data?.code === 200){
+            dispatch({type: PRODUCT_DETAILS_SUCCESS,payload:response.data})
         } else {
-            dispatch({
-                type: PRODUCT_DETAILS_SUCCESS,
-                payload: response.data
-            })
+            dispatch({type: PRODUCT_DETAILS_FAIL, payload: response.data})
         }
-
     } catch (error) {
-        dispatch({
-            type: PRODUCT_DETAILS_FAIL,
-            payload: error
-        })
+        let message = "Internal server Error"
+        let data = {message};
+        dispatch({type: PRODUCT_DETAILS_FAIL,payload: data})
     }
 }
 

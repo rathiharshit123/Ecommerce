@@ -20,7 +20,7 @@ export const productReducer = (state = {products: []},action) => {
         case ALL_PRODUCT_FAIL:
             return {
                 loading: false,
-                error: action.payload
+                error: action.payload.message
             }
         case CLEAR_ERRORS: 
             return {
@@ -48,7 +48,7 @@ export const productDetailReducer = (state = {product: {}},action) => {
         case PRODUCT_DETAILS_FAIL:
             return {
                 loading: false,
-                error: action.payload,
+                error: action.payload.message,
                 product: {}
             }
         case CLEAR_ERRORS: 
