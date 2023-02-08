@@ -7,7 +7,7 @@ module.exports = async (req,res,next)=>{
             name : Joi.string().required().min(3).max(30),
             password: Joi.string().required().min(8),
             email: Joi.string().email(),
-            avatar: Joi.object.keys({
+            avatar: Joi.object().keys({
                 publicId: Joi.string().required(),
                 url: Joi.string().required()
             })
