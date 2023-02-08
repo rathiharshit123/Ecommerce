@@ -38,7 +38,7 @@ class UserServices{
             let token = this.createToken(user._id);
             let data = {
                 token,
-                user,
+                userDetails: user
             }
             responseObject.data = data;
         } catch (error) {
@@ -68,9 +68,9 @@ class UserServices{
             }
 
             let token = this.createToken(user._id);
-            let data ={
+            let data = {
                 token,
-                user
+                userDetails: user
             }
             responseObject.data = data;
         } catch (error) {
@@ -217,7 +217,12 @@ class UserServices{
         let responseObject = utils.responseFormat();
         try {
             let user = await userModel.findById(req.user._id);
-            responseObject.data = user;
+            let {token} = req.cookies
+            let data = {
+                token,
+                userDetails: user
+            }
+            responseObject.data = data;
             return responseObject;
         } catch (error) {
             logger.error(error,"Error in get my Profile service")
