@@ -4,10 +4,11 @@ import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { addItemsToCart, removeItemsFromCart } from '../../actions/cartAction'
+import MetaData from '../layout/MetaData'
 import './Cart.css'
 import  CartItemCard from './CartItemCard'
 
-const Cart = () => {
+const Cart = ({history}) => {
 
     const dispatch = useDispatch();
     const {cartItems} = useSelector(state=>state.cart)
@@ -28,8 +29,13 @@ const Cart = () => {
         dispatch(removeItemsFromCart(id));
     }
 
+    const checkOutHandler = () => {
+        history.push("/login?redirect=shipping")
+    }
+
   return (
     <Fragment>
+        <MetaData title="Cart- Ecommerce"/>
         {!cartItems.length ? (
             <div className="emptyCart">
                 <RemoveShoppingCart/>
@@ -58,11 +64,12 @@ const Cart = () => {
                 <div></div>
                 <div className="cartGrossTotalBox">
                     <p>Gross Total</p>
-                    <p>{`₹600`}</p>
+                    <p>{`₹${cartItems.reduce(
+                        (acc,item)=> acc + item.quantity * item.price ,0)}`}</p>
                 </div>
                 <div></div>
                 <div className="checkOutBtn">
-                    <button>Check Out</button>
+                    <button onClick={checkOutHandler}>Check Out</button>
                 </div>
             </div>
         </div>

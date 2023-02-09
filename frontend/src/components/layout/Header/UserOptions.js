@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from 'react'
 import './Header.css'
 import { SpeedDial,SpeedDialAction } from '@material-ui/lab'
-import { Dashboard,Person,ExitToApp,ListAlt } from '@material-ui/icons'
+import { Dashboard,Person,ExitToApp,ListAlt, ShoppingCart } from '@material-ui/icons'
 import { Backdrop } from '@material-ui/core'
 import { useAlert } from 'react-alert'
 import { useHistory } from 'react-router-dom'
 import { logout } from '../../../actions/userAction'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 
@@ -16,29 +16,34 @@ const UserOptions = ({user}) => {
     const alert = useAlert();
     const history = useHistory();
     const dispatch = useDispatch();
+    const {cartItems} = useSelector(state=>state.cart)
 
     const options = [
         { icon: <ListAlt />, name: "Orders", func: orders },
         { icon: <Person />, name: "Profile", func: account },
+        { icon: <ShoppingCart style={{color: cartItems.length? "tomato": "unset"}}/>, name: `Cart-${cartItems.length}`, func: cart },
         { icon: <ExitToApp />, name: "Logout", func: logoutUser },
       ]
     if (user.userDetails.role === "admin") {
         options.unshift({icon: <Dashboard />,name: "Dashboard",func: dashboard});
     }
 
-    function dashboard (){
-        history.push('/dashboard')
+    function dashboard () {
+        history.push('/dashboard');
     }
     
-    function account (){
-        history.push('/account')
+    function account () {
+        history.push('/account');
     }
 
-    function orders (){
-        history.push('/orders')
+    function cart () {
+        history.push('/cart');
+    }
+    function orders () {
+        history.push('/orders');
     }
 
-    function logoutUser (){
+    function logoutUser () {
         dispatch(logout());
         alert.success("Logout Succesfull")
     }

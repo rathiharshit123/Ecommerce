@@ -10,7 +10,7 @@ import { useAlert } from 'react-alert'
 import Loader from '../layout/Loader/Loader'
 import MetaData from '../layout/MetaData'
 
-const LoginSignup = ({history}) => {
+const LoginSignup = ({history, location}) => {
     const dispatch = useDispatch(); 
     const alert = useAlert();
     const loginTab = useRef(null);
@@ -18,13 +18,18 @@ const LoginSignup = ({history}) => {
     const registerTab = useRef(null);
 
     const {error,isAuthenticated,loading} = useSelector((state)=> state.user) 
+    const redirect = location.search ? location.search.split("=")[1] : "/account"
 
     useEffect(() => {
       if(error){
         alert.error(error);
         dispatch(clearErrors());
       }
-    }, [dispatch,error,alert,history,isAuthenticated])
+
+    if(isAuthenticated){
+        history.push(redirect)
+    }
+    }, [dispatch,error,alert,history,isAuthenticated,redirect])
     
 
     const switchTabs = (e, tab) => {
@@ -88,9 +93,7 @@ const LoginSignup = ({history}) => {
         }
     }
 
-    if(isAuthenticated){
-        history.push("/account")
-    }
+    
 
   return (
     <Fragment>
