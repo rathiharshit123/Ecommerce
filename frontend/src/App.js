@@ -1,22 +1,23 @@
 import './App.css';
-import Header from "./components/layout/Header/Header.js"
+import Header from "./components/layout/Header/Header"
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import WebFont from 'webfontloader';
 import React from 'react';
 import Footer from './components/layout/Footer/Footer';
 import Home from './components/Home/Home';
-import ProductDetails from "./components/Product/ProductDetails.js"
-import Products from "./components/Product/Products.js"
-import Search from "./components/Product/Search.js"
+import ProductDetails from "./components/Product/ProductDetails"
+import Products from "./components/Product/Products"
+import Search from "./components/Product/Search"
 import LoginSignup from './components/User/LoginSignup';
 import store from './store';
 import { loadUser } from './actions/userAction';
-import UserOptions from "./components/layout/Header/UserOptions.js"
+import UserOptions from "./components/layout/Header/UserOptions"
 import { useSelector } from 'react-redux';
 import Profile from './components/User/Profile.js'
 import ProtectedRoute from './components/Route/ProtectedRoute';
-import UpdateProfile from './components/User/UpdateProfile.js'
-import UpdatePassword from './components/User/UpdatePassword.js'
+import UpdateProfile from './components/User/UpdateProfile'
+import UpdatePassword from './components/User/UpdatePassword'
+import ForgotPassword from './components/User/ForgotPassword'
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
       <ProtectedRoute exact path='/account' component={Profile} />
       <ProtectedRoute exact path='/update/profile' component={UpdateProfile} />
       <ProtectedRoute exact path='/update/password' component={UpdatePassword} />
+      <Route exact path = '/forgot/password' component={ForgotPassword}/>
 
       <Footer/>
     </Router>

@@ -57,7 +57,6 @@ const LoginSignup = ({history}) => {
     const {name , email ,password} = user;
 
     const loginSubmit = (e) => {
-        console.log("HEREE")
         e.preventDefault();
         dispatch(login(loginEmail,loginPassword))
     }
@@ -125,7 +124,7 @@ const LoginSignup = ({history}) => {
                             onChange={(e)=> setLoginPassword(e.target.value)}
                         />
                     </div>
-                    <Link to="/password/forgot">Forgot Password?</Link>
+                    <Link to="/forgot/password">Forgot Password?</Link>
                     <input type="submit"  value="Login" className='loginBtn'/>
                 </form>
                 <form className='signupForm' ref={registerTab} encType="multipart/form-data" onSubmit={registerSubmit} >
