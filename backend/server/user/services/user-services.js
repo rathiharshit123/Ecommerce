@@ -257,6 +257,7 @@ class UserServices{
 
         } catch (error) {
             logger.error(error,"Error in updatePassword Service")
+            throw error;
         }
         return responseObject;
     }

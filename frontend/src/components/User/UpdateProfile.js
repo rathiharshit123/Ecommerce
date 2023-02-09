@@ -62,6 +62,7 @@ const UpdateProfile = ({history}) => {
         }
 
         if(isUpdated) {
+            console.log(isUpdated,"KYA VALUE BOSDIKE")
             alert.success("Profile Updated Succesfully");
             dispatch(loadUser());
             history.push('/account');

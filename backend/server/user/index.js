@@ -17,9 +17,9 @@ routes.put('/reset/password/:token', validate.resetPassword, controller.resetPas
 
 routes.get('/me', middleware.validateUserToken, controller.getMyProfile)
 
-routes.put('/update/password', validate.updatePassword, middleware.validateUserToken, controller.updatePassword);
+routes.put('/update/password',  middleware.validateUserToken, validate.updatePassword, controller.updatePassword);
 
-routes.put('/update/profile', validate.updateProfile, middleware.validateUserToken, controller.updateMyProfile)
+routes.put('/update/profile',middleware.validateUserToken, validate.updateProfile, controller.updateMyProfile)
 
 
 module.exports = routes;
