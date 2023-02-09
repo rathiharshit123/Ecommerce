@@ -1,4 +1,4 @@
-import React, {Fragment,useEffect} from 'react'
+import React, {Fragment,useEffect, useState} from 'react'
 import Carousel from 'react-material-ui-carousel'
 import { useSelector,useDispatch } from 'react-redux'
 import { clearErrors, getProduct } from '../../actions/productAction'
@@ -8,13 +8,34 @@ import Loader from '../layout/Loader/Loader'
 import ReactStars from 'react-rating-stars-component'
 import ReviewCard from './ReviewCard.js'
 import MetaData from '../layout/MetaData'
+import { addItemsToCart } from '../../actions/cartAction'
 
 const ProductDetails = ({match}) => {
+  
   const dispatch = useDispatch();
   const alert = useAlert();
-
-
+  
   const {product, loading, error} = useSelector(state=>state.productDetail)
+
+  const [quantity, setQuantity] = useState(1);
+
+  const increaseQuantity = () => {
+    if(quantity < product.stock ){
+      setQuantity(quantity+1);
+    }
+  }
+
+  const decreaseQuantity = () => {
+    if(quantity > 1  ){
+      setQuantity(quantity-1);
+    }
+  }
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(match.params.id,quantity));
+    alert.success("Item Added to Cart Succesfully")
+  }
+  
   useEffect(() => {
     if(error){
       alert.error(error);
@@ -65,14 +86,14 @@ const ProductDetails = ({match}) => {
             <h1>{`₹${product.price}`}</h1>
             <div className="detailsBlock-3-1">
               <div className="detailsBlock-3-1-1">
-                <button>-</button>
-                <input type="number" value="1" />
-                <button>+</button>
-              </div>{" "}
-              <button>Add to Cart</button>
+                <button onClick={decreaseQuantity}>-</button>
+                <input readOnly type="number" value={quantity} onChange={()=>{}} />
+                <button onClick={increaseQuantity}>+</button>
+              </div>
+              <button onClick={addToCartHandler}>Add to Cart</button>
             </div>
             <p>
-              Status:{" "}
+              Status:
               <b className= {product.stock<1? "redColor":"greenColor"}>
                 {product.stock<1? "OutOfStock": "InStock"}
               </b>
