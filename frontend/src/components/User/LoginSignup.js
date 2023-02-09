@@ -5,9 +5,9 @@ import  LockOpenIcon  from '@material-ui/icons/LockOpen'
 import FaceIcon from '@material-ui/icons/Face'
 import './LoginSignup.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { clearErrors, login , registerUser} from '../../../actions/userAction'
+import { clearErrors, login , registerUser} from '../../actions/userAction'
 import { useAlert } from 'react-alert'
-import Loader from '../Loader/Loader'
+import Loader from '../layout/Loader/Loader'
 
 const LoginSignup = ({history}) => {
     const dispatch = useDispatch(); 
@@ -64,7 +64,6 @@ const LoginSignup = ({history}) => {
 
     const registerSubmit = (e) => {
         e.preventDefault()
-        console.log("HEREEE");
         const myForm = new FormData();
         myForm.set("name",name)
         myForm.set("password",password)

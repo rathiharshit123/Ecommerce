@@ -12,7 +12,6 @@ const Profile = ({history}) => {
 
     useEffect(() => {
         if(!isAuthenticated){
-            console.log("HII BRO JA LOGIN KARKE AA")
             history.push("/login")
         }
     }, [history,isAuthenticated])
@@ -26,7 +25,7 @@ const Profile = ({history}) => {
             <div>
                 <h1>My Profile</h1>
                 <img src={userDetails.avatar.url} alt= {userDetails.name} />
-                <Link to="/me/update">Edit Profile</Link>
+                <Link to="/update/profile">Edit Profile</Link>
             </div>
             <div>
                 <div>

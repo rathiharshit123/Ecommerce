@@ -8,13 +8,14 @@ import Home from './components/Home/Home';
 import ProductDetails from "./components/Product/ProductDetails.js"
 import Products from "./components/Product/Products.js"
 import Search from "./components/Product/Search.js"
-import LoginSignup from './components/layout/User/LoginSignup';
+import LoginSignup from './components/User/LoginSignup';
 import store from './store';
 import { loadUser } from './actions/userAction';
 import UserOptions from "./components/layout/Header/UserOptions.js"
 import { useSelector } from 'react-redux';
 import Profile from './components/User/Profile.js'
 import ProtectedRoute from './components/Route/ProtectedRoute';
+import UpdateProfile from './components/User/UpdateProfile.js'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
       <Route exact path="/search" component={Search}/>
       <Route exact path="/login" component={LoginSignup} />
       <ProtectedRoute exact path='/account' component={Profile} />
+      <ProtectedRoute exact path='/update/profile' component={UpdateProfile} />
       <Footer/>
     </Router>
   );

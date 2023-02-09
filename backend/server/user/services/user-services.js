@@ -264,7 +264,7 @@ class UserServices{
     static async updateMyProfile(req){
         let responseObject = utils.responseFormat();
         try {
-            let {name,email} = req.body;
+            let {name,email ,avatar} = req.body;
 
             let checkEmailExist = await userModel.findOne({email});
 
@@ -275,10 +275,24 @@ class UserServices{
             
             const user = await userModel.findById(req.user._id);
 
-            await userModel.findByIdAndUpdate(user._id,{
+            let toUpdate = {
                 name,
-                email,
-            })
+                email
+            }
+            if(avatar){
+                let r = await cloudinary.v2.uploader.destroy(user.avatar.publicId);
+                console.log(r,"HUI YE DESTROY??")
+                const myCloud = await cloudinary.v2.uploader.upload(avatar,{folder: "avatars",width: 150,crop: "scale"})
+                toUpdate.avatar = {
+                    publicId: myCloud.public_id,
+                    url: myCloud.url,
+                }
+            }
+
+            let res = await userModel.findByIdAndUpdate(user._id,
+                toUpdate
+            )
+            console.log(res,"KYA HAI FIR YE")
             responseObject = utils.response(responseCode.SUCCESS,{},"Profile Updated Succesfully")
         } catch (error) {
             logger.error(error,"Error in updateMyProfile  Service");
