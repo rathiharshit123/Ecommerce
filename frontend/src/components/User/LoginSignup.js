@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { clearErrors, login , registerUser} from '../../actions/userAction'
 import { useAlert } from 'react-alert'
 import Loader from '../layout/Loader/Loader'
+import MetaData from '../layout/MetaData'
 
 const LoginSignup = ({history}) => {
     const dispatch = useDispatch(); 
@@ -94,6 +95,7 @@ const LoginSignup = ({history}) => {
   return (
     <Fragment>
         {loading ? <Loader/> : <Fragment>
+        <MetaData title="Login - Ecommerce"/>
         <div className="loginSignupContainer">
             <div className="loginSignupBox">
                 <div>

@@ -3,7 +3,8 @@ REGISTER_USER_FAIL,REGISTER_USER_REQUEST,REGISTER_USER_SUCCESS,
 LOAD_USER_REQUEST,LOAD_USER_FAIL,LOAD_USER_SUCCESS, LOGOUT_FAIL,LOGOUT_SUCCESS,
 UPDATE_PROFILE_FAIL,UPDATE_PROFILE_REQUEST,UPDATE_PROFILE_SUCCESS,
 UPDATE_PASSWORD_REQUEST,UPDATE_PASSWORD_FAIL,UPDATE_PASSWORD_SUCCESS,
-FORGOT_PASSWORD_FAIL,FORGOT_PASSWORD_REQUEST,FORGOT_PASSWORD_SUCCESS } from "../constants/userConstants"
+FORGOT_PASSWORD_FAIL,FORGOT_PASSWORD_REQUEST,FORGOT_PASSWORD_SUCCESS,
+RESET_PASSWORD_FAIL,RESET_PASSWORD_REQUEST,RESET_PASSWORD_SUCCESS } from "../constants/userConstants"
 import axios from "axios"
 
 
@@ -121,6 +122,23 @@ export const forgotPassword = (data) => async (dispatch) => {
         let message = "Internal server Error"
         let data = {message};
         dispatch({type: FORGOT_PASSWORD_FAIL,payload: data})
+    }
+}
+
+export const resetPassword = (token,data) => async (dispatch) => {
+    try {
+        dispatch({type: RESET_PASSWORD_REQUEST});
+        const config = {headers: {"Content-Type": "application/json"}};
+        const response = await axios.put(`/api/v1/user/reset/password/${token}`,data,config);
+        if(response?.data?.code === 200){
+            dispatch({type: RESET_PASSWORD_SUCCESS,payload: response.data})
+        } else {
+            dispatch({type: RESET_PASSWORD_FAIL, payload: response.data})
+        }
+    } catch (error) {
+        let message = "Internal server Error"
+        let data = {message};
+        dispatch({type: RESET_PASSWORD_FAIL,payload: data})
     }
 }
 

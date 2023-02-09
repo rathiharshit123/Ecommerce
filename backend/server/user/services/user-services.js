@@ -143,7 +143,8 @@ class UserServices{
                 resetPasswordToken,
             })
 
-            const resetPasswordUrl = `${req.protocol}://${req.get('host')}/api/v1/user/password/reset/${resetToken}`
+            const resetPasswordUrl = `${config.TEMP_URL}/reset/password/${resetToken}`
+            // const resetPasswordUrl = `${req.protocol}://${req.get('host')}/api/v1/user/password/reset/${resetToken}`
             
             const emailMessage = `Your reset password url is : \n\n ${resetPasswordUrl} \n\n If you have not requested this email, please ignore it. \n Please note this link is valid for 15 minutes only`
             
