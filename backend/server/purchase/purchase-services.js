@@ -17,7 +17,7 @@ class PaymentServices {
             const payment = await stripe.paymentIntents.create({
                 amount,
                 currency: constants.INDIAN_RUPPE,
-                metaData: {
+                metadata: {
                     company: "Ecommerce"
                 }
             })
