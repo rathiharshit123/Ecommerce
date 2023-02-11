@@ -2,9 +2,10 @@ import { Typography } from '@material-ui/core'
 import { CreditCard, Event, VpnKey } from '@material-ui/icons'
 import { CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import axios from 'axios'
-import React, { Fragment, useRef } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
+import { clearErrors, createOrder } from '../../actions/orderAction'
 import MetaData from '../layout/MetaData'
 import CheckoutSteps from './CheckoutSteps'
 import './Payment.css'
@@ -21,10 +22,20 @@ const Payment = ({history}) => {
 
     const {user} = useSelector(state=>state.user);
     const {shippingInfo, cartItems} = useSelector(state=>state.cart)
+    const {error} = useSelector(state=>state.newOrder);
     const {userDetails} = user;
 
     const paymentData = {
         amount: Math.round(orderInfo.total * 100)
+    }
+
+    const orderData = {
+        shippingInfo,
+        orderItems: cartItems,
+        itemsPrice: orderInfo.subtotal,
+        taxPrice: orderInfo.tax,
+        shippingPrice: orderInfo.shippingCharges,
+        totalPrice: orderInfo.total
     }
 
     const paymentSubmitHandler = async (e) => {
@@ -67,6 +78,11 @@ const Payment = ({history}) => {
                 alert.error(result.error.message)
             } else {
                 if (result.paymentIntent.status === 'succeeded') {
+                    orderData.paymentInfo = {
+                        id: result.paymentIntent.id,
+                        status: result.paymentIntent.status
+                    }
+                    dispatch(createOrder(orderData))
                     history.push('/success')
                 } else {
                     alert.error("There's some error while processing your payment")
@@ -75,9 +91,18 @@ const Payment = ({history}) => {
 
 
         } catch (error) {
-            
+            payBtn.current.disabled = false;
+            alert.error(error.response.data.message);
         }
     }
+
+    useEffect(() => {
+      if(error){
+        alert.error(error);
+        dispatch(clearErrors());
+      }
+    }, [dispatch,error,alert])
+    
 
   return (
     <Fragment>
