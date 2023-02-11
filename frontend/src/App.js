@@ -27,6 +27,7 @@ import Payment from './components/Cart/Payment'
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import OrderSuccess from './components/Cart/OrderSuccess'
+import MyOrders from './components/Cart/MyOrders'
 
 function App() {
 
@@ -47,7 +48,6 @@ function App() {
         families: ["Roboto", "Droid Sans", "Chilanka"]
       }
     })
-
     store.dispatch(loadUser())
     getStripeKey()
   },[]);
@@ -76,6 +76,7 @@ function App() {
         <ProtectedRoute exact path = '/process/purchase' component={Payment}/>
       </Elements>)}
       <ProtectedRoute exact path = '/success' component={OrderSuccess}/>
+      <ProtectedRoute exact path = '/orders' component={MyOrders}/>
 
       <Footer/>
     </Router>
