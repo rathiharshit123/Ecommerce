@@ -27,7 +27,8 @@ import Payment from './components/Cart/Payment'
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import OrderSuccess from './components/Cart/OrderSuccess'
-import MyOrders from './components/Cart/MyOrders'
+import MyOrders from './components/Order/MyOrders'
+import OrderDetails from './components/Order/OrderDetails'
 
 function App() {
 
@@ -77,7 +78,7 @@ function App() {
       </Elements>)}
       <ProtectedRoute exact path = '/success' component={OrderSuccess}/>
       <ProtectedRoute exact path = '/orders' component={MyOrders}/>
-
+      <ProtectedRoute exact path = '/orders/:id' component={OrderDetails}/>
       <Footer/>
     </Router>
   );

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { CREATE_ORDER_FAIL,CREATE_ORDER_REQUEST,CREATE_ORDER_SUCCESS, CLEAR_ERRORS,
-MY_ORDERS_SUCCESS, MY_ORDERS_REQUEST, MY_ORDERS_FAIL } from "../constants/orderConstants";
+MY_ORDERS_SUCCESS, MY_ORDERS_REQUEST, MY_ORDERS_FAIL, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS } from "../constants/orderConstants";
 
 
 export const createOrder = (order) => async (dispatch) => {
@@ -33,6 +33,22 @@ export const myOrders = () => async (dispatch) => {
         let message = "Internal server Error"
         let data = {message};
         dispatch({type: MY_ORDERS_FAIL,payload: data})
+    }
+}
+
+export const getOrderDetails = (id) => async (dispatch) => {
+    try {
+        dispatch({type: ORDER_DETAILS_REQUEST})
+        const response = await axios.get(`/api/v1/orders/get/${id}`)
+        if(response.data?.code === 200){
+            dispatch({type: ORDER_DETAILS_SUCCESS, payload: response.data})
+        } else {
+            dispatch({type: ORDER_DETAILS_FAIL,payload: response.data})
+        }
+    } catch (error) {
+        let message = "Internal server Error"
+        let data = {message};
+        dispatch({type: ORDER_DETAILS_FAIL,payload: data})
     }
 }
 
