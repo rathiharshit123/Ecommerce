@@ -6,4 +6,4 @@ const {initiatePurchase,getStripeApiKey} = require("./purchase-controller")
 router.post("/initiatePurchase",middleware.validateUserToken, initiatePurchase)
 router.get("/getKey",middleware.validateUserToken,getStripeApiKey)
 
-module.exports(router);
+module.exports = router;
