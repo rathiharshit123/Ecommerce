@@ -17,5 +17,9 @@ module.exports = {
         api_key: process.env.CLOUDINARY_API_KEY,
         api_secret: process.env.CLOUDINARY_API_SECRET,
     },
-    TEMP_URL: process.env.TEMP_URL
+    TEMP_URL: process.env.TEMP_URL,
+    STRIPE: {
+        API_KEY: process.env.STRIPE_API_KEY,
+        SECRET_KEY: process.env.STRIPE_SECRET_KEY
+    }
 }

@@ -6,7 +6,7 @@ import MetaData from '../layout/MetaData'
 import CheckoutSteps from './CheckoutSteps'
 import './ConfirmOrder.css'
 
-const ConfirmOrder = () => {
+const ConfirmOrder = ({history}) => {
 
     const {user} = useSelector(state=>state.user)
     const {shippingInfo, cartItems} = useSelector(state=>state.cart)
@@ -17,6 +17,20 @@ const ConfirmOrder = () => {
     const tax = subtotal * 0.18;
     const total = subtotal + shippingCharges + tax;
     const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.pincode}`
+
+    const proceedToPaymentHandler = (e) =>{
+        e.preventDefault();
+        const orderInfo = {
+            subtotal,
+            tax,
+            total,
+            address,
+            shippingCharges
+        }
+
+        sessionStorage.setItem("orderInfo",JSON.stringify(orderInfo))
+        history.push("/process/purchase")
+    }
 
   return (
     <Fragment>
@@ -79,7 +93,7 @@ const ConfirmOrder = () => {
                         <p><b>Total:</b></p>
                         <span>₹{total}</span>
                     </div>
-                    <button>Proceed To Payment</button>
+                    <button onClick={proceedToPaymentHandler} >Proceed To Payment</button>
                 </div>
             </div>
         </div>

@@ -6,5 +6,6 @@ module.exports = {
         DELIVERED: "DELIVERED",
         PROCESSING: "PROCESSING",
         SHIPPED: "SHIPPED"
-    }
+    },
+    INDIAN_RUPPE : "inr"
 }

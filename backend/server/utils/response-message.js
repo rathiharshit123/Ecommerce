@@ -13,5 +13,6 @@ module.exports ={
     1008: 'Please enter your correct password',
     1009: 'Invalid user id',
     1010: 'Unable to find an order',
-    1011: 'Order is already delivered'
+    1011: 'Order is already delivered',
+    1012: 'Please enter a valid Amount'
 }
