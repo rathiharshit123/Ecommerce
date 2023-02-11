@@ -5,8 +5,8 @@ let shippingInfoSchema = Joi.object().keys({
     city: Joi.string().required(),
     state: Joi.string().required(),
     country: Joi.string().required(),
-    pinCode: Joi.number().required(),
-    phoneNumber: Joi.string().length(10).regex(/^[0-9]+$/).required(),
+    pincode: Joi.number().required(),
+    phoneNo: Joi.string().length(10).regex(/^[0-9]+$/).required(),
 })
 
 let orderItemSchema = Joi.object().keys({
@@ -14,7 +14,8 @@ let orderItemSchema = Joi.object().keys({
     price: Joi.number().required(),
     quantity: Joi.number().required(),
     image: Joi.string().required(),
-    productId: Joi.string().required()
+    stock: Joi.number().optional(),
+    product: Joi.string().required()
 })
 
 let paymentInfoSchema = Joi.object().keys({

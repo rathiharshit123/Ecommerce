@@ -7,8 +7,8 @@ const orderSchema = new mongoose.Schema({
         city: {type: String,required:true,},
         state: {type: String, required:true,},
         country: {type: String,required:true,},
-        pinCode: {type: Number,required: true,},
-        phoneNumber: {type: String,required: true},
+        pincode: {type: Number,required: true,},
+        phoneNo: {type: String,required: true},
     },
     orderItems: [
         {
@@ -16,7 +16,7 @@ const orderSchema = new mongoose.Schema({
             price: {type:Number,required:true},
             quantity: {type:Number,required:true},
             image: {type:String,required:true},
-            productId: {type: mongoose.Schema.ObjectId,ref:"Product",required:true},
+            product: {type: mongoose.Schema.ObjectId,ref:"Product",required:true},
         }
     ],
     userId: {type: mongoose.Schema.ObjectId,ref:"User",required:true},
