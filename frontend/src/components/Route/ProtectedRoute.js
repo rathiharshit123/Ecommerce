@@ -7,7 +7,7 @@ const ProtectedRoute = ({component: Component,...rest}) => {
     
   return (
          <Fragment>
-            {!loading && (<Route
+            {loading===false && (<Route
                 {...rest}
                 render = {(props)=> {
                     if(isAuthenticated === false ){
