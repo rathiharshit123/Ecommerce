@@ -1,6 +1,6 @@
 import './App.css';
 import Header from "./components/layout/Header/Header"
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 import WebFont from 'webfontloader';
 import React, { useState } from 'react';
 import Footer from './components/layout/Footer/Footer';
@@ -29,6 +29,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import OrderSuccess from './components/Cart/OrderSuccess'
 import MyOrders from './components/Order/MyOrders'
 import OrderDetails from './components/Order/OrderDetails'
+import Dashboard from './components/admin/Dashboard'
 
 function App() {
 
@@ -78,9 +79,8 @@ function App() {
       </Elements>)}
       <ProtectedRoute exact path = '/success' component={OrderSuccess}/>
       <ProtectedRoute exact path = '/orders' component={MyOrders}/>
-      <Switch>
-        <ProtectedRoute exact path = '/orders/:id' component={OrderDetails}/>
-      </Switch>
+      <ProtectedRoute exact path = '/orders/:id' component={OrderDetails}/>
+      <ProtectedRoute exact path = '/admin/dashboard' component={Dashboard}/>
       <Footer/>
     </Router>
   );

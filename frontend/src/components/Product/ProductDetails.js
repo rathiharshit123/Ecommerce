@@ -52,7 +52,7 @@ const ProductDetails = ({match}) => {
     e.preventDefault();
     const myForm = new FormData();
     myForm.set("rating",rating);
-    myForm.set("comment",comment)
+    if(comment) myForm.set("comment",comment)
     myForm.set("productId",match.params.id)
 
     dispatch(newReviewSubmit(myForm))
@@ -139,7 +139,7 @@ const ProductDetails = ({match}) => {
       </div>
 
       <h3 className="reviewsHeading">REVIEWS</h3>
-      <Dialog aria-aria-labelledby='simple-dialog-title' open= {open} onClose={submitReviewToggle}  >
+      <Dialog aria-labelledby='simple-dialog-title' open= {open} onClose={submitReviewToggle}  >
           <DialogTitle>Submit Review</DialogTitle>
           <DialogContent className='submitDialog' >
             <Rating onChange={(e)=> setRating(e.target.value)} value={rating} size ='large' />
