@@ -163,7 +163,6 @@ class ProductServices {
                 totalRating = 0,
                 isReviewed = false;
 
-                console.log(reviewArr,"REVIEWWARR")
             reviewArr.forEach((review)=>{
                 if(review.user.toString()==req.user._id) isReviewed = true;
             })

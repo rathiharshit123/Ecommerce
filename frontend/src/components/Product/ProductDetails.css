@@ -95,7 +95,7 @@
     background-color: tomato;
     font: 500 0.7vmax "Roboto";
     border-radius: 20px;
-    padding: 0.5vmax 2vmax;
+    padding: 1vmax 2vmax;
     margin: 1vmax;
     outline: none;
 }
@@ -131,7 +131,7 @@
     background-color: tomato;
     font: 500 0.7vmax "Roboto";
     border-radius: 20px;
-    padding: 0.5vmax 2vmax;
+    padding: 1vmax 2vmax;
     margin: 1vmax;
     outline: none;
 }
@@ -139,6 +139,19 @@
 .submitReview:hover{
     background-color: rgb(224, 89, 66);
     transform: scale(1.1);
+}
+
+.submitDialog{
+  display: flex;
+  flex-direction: column;
+}
+
+.submitDialogTextArea{
+  border: 1px solid black;
+  margin: 1vmax 0;
+  outline: none;
+  padding: 1rem;
+  font: 300 1rem "Roboto";
 }
 
 .reviewsHeading {
