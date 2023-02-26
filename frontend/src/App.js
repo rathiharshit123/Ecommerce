@@ -80,7 +80,7 @@ function App() {
       <ProtectedRoute exact path = '/success' component={OrderSuccess}/>
       <ProtectedRoute exact path = '/orders' component={MyOrders}/>
       <ProtectedRoute exact path = '/orders/:id' component={OrderDetails}/>
-      <ProtectedRoute exact path = '/admin/dashboard' component={Dashboard}/>
+      <ProtectedRoute isAdmin={true} exact path = '/admin/dashboard' component={Dashboard}/>
       <Footer/>
     </Router>
   );
