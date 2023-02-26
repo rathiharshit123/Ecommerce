@@ -2,6 +2,7 @@ const logger = require("../../utils/logger");
 const utils = require("../../utils/util");
 const userModel = require("../../user/models/user-model");
 const responseCode = require("../../utils/response-code");
+const productModel = require("../../product/models/product-model");
 
 class AdminServices {
     static async getAllUsers(req){
@@ -100,6 +101,18 @@ class AdminServices {
             responseObject = utils.response(responseCode.SUCCESS,{},"Profile deleted Succesfully")
         } catch (error) {
             logger.error(error,"Error in updateUser in AdminService")
+        }
+        return responseObject;
+    }
+
+    static async getAllProducts(){
+        let responseObject = utils.responseFormat();
+        try {
+
+            let products = await productModel.find();
+            responseObject = utils.response(responseCode.SUCCESS,products)
+        } catch (error) {
+            logger.error(error,"Error in updateUser in getAllProducts")
         }
         return responseObject;
     }

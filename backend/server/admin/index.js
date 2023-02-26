@@ -13,5 +13,7 @@ routes.put("/update/user/:id",middleware.validateAdminToken, validate.updateProf
 
 routes.delete("/delete/user/:id", middleware.validateAdminToken, controller.deleteUser)
 
+routes.get('/get/products',middleware.validateAdminToken,controller.getAllProducts)
+
 
 module.exports = routes

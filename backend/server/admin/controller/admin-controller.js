@@ -52,9 +52,22 @@ const deleteUser = async function(req,res){
     res.json(responseObject);
 }
 
+const getAllProducts = async function(req,res) {
+    let responseObject = util.responseFormat();
+    try {
+        let response = await AdminServices.getAllProducts();
+        responseObject = util.response(response.code,response.data,response.message);
+    } catch (error) {
+        logger.error(error,"Error in getAllProducts Controller")
+        responseObject = util.response(responseCode.SOME_INTERNAL_ERROR);
+    }
+    res.json(responseObject);
+}
+
 module.exports = {
     getAllUsers,
     getUser,
     updateUser,
     deleteUser,
+    getAllProducts,
 }
