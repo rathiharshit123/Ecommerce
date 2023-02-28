@@ -4,6 +4,7 @@ const utils = require("../../utils/util");
 const productModel = require("../models/product-model");
 const ProductFeatures = require('../../utils/product-featutres');
 const constants = require("../../utils/constants");
+const cloudinary = require("cloudinary");
 class ProductServices {
     static async getAllProducts(requestObj){
         let responseObject = utils.responseFormat();
@@ -35,6 +36,28 @@ class ProductServices {
     static async addProduct(req){
         let responseObject = utils.responseFormat();
         try {
+            let images = [];
+
+            if(typeof req.body.images === 'string') {
+                images.push(req.body.images);
+            } else {
+                images = req.body.images;
+            }
+
+            const imagesLink = [];
+
+            for (const image of images) {
+                const result = await cloudinary.v2.uploader.upload(image,{
+                    folder: "products"
+                })
+                imagesLink.push({
+                    publicId: result.public_id,
+                    url: result.secure_url
+                })
+            }
+
+            req.body.images = imagesLink;
+
             let requestObj = req.body;
             let userDetails = req.user;
             const product = await productModel.create({

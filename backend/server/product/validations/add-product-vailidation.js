@@ -1,10 +1,5 @@
 const Joi = require("@hapi/joi");
 
-let imageObject = Joi.object().keys({
-    publicId: Joi.string().required(),
-    url: Joi.string().required()
-})
-
 let reviewObject = Joi.object().keys({
     name: Joi.string().required(),
     rating: Joi.number().required(),
@@ -20,7 +15,7 @@ module.exports = async (req,res,next)=>{
             ratings: Joi.number().default(0),
             category: Joi.string().required(),
             stock: Joi.number().required(),
-            images: Joi.array().items(imageObject).optional(),
+            images: Joi.array().optional(),
             numberOfReviews: Joi.number().default(0),
             reviews: Joi.array().items(reviewObject).optional()
         })
