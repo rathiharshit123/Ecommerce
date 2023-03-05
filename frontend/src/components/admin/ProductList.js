@@ -5,25 +5,44 @@ import React, { Fragment, useEffect } from 'react'
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { clearErrors, getAllProductsAdmin } from '../../actions/productAction';
+import { clearErrors, getAllProductsAdmin,deleteProduct } from '../../actions/productAction';
 import MetaData from '../layout/MetaData';
 import Sidebar from './Sidebar';
 import './ProductList.css'
+import { DELETE_PRODUCT_RESET } from '../../constants/productConstants';
+import Loader from '../layout/Loader/Loader';
 
-const ProductList = () => {
+const ProductList = ({history}) => {
 
     const dispatch = useDispatch();
     const alert = useAlert();
-
-    const { error, products } = useSelector((state) => state.products);
+    
+    const { error, products, loading: productLoading } = useSelector((state) => state.products);
+    const {error: deleteError, isDeleted , loading} = useSelector((state)=>state.product)
+    
+    const deleteProductHandler = (id) => {
+      dispatch(deleteProduct(id))
+    }
 
     useEffect(() => {
       if(error){
         alert.error(error);
         dispatch(clearErrors());
       }
+
+      if(deleteError) {
+        alert.error(deleteError);
+        dispatch(clearErrors());
+      }
+
+      if(isDeleted) {
+        alert.success('Product Deleted Succesfully');
+        history.push("/admin/dashboard");
+        dispatch({type: DELETE_PRODUCT_RESET});
+      }
+
       dispatch(getAllProductsAdmin());
-    }, [dispatch,alert,error])
+    }, [dispatch,alert,error,history,deleteError,isDeleted])
     
 
     const columns = [
@@ -37,7 +56,7 @@ const ProductList = () => {
                     <Link to={`/admin/product/${params.getValue(params.id,"id")}`} >
                         <Edit/>
                     </Link>
-                    <Button>
+                    <Button onClick={()=> deleteProductHandler(params.getValue(params.id,"id"))}>
                         <Delete/>
                     </Button>
                 </Fragment>
@@ -58,6 +77,7 @@ const ProductList = () => {
     });
 
   return (
+    loading || productLoading ? <Loader/> :
     <Fragment>
         <MetaData title= 'All Products - Admin'  />
         <div className="dashboard">

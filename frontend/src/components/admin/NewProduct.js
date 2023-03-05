@@ -8,6 +8,7 @@ import { NEW_PRODUCT_RESET } from '../../constants/productConstants'
 import MetaData from '../layout/MetaData'
 import Sidebar from './Sidebar'
 import './NewProduct.css'
+import Loader from '../layout/Loader/Loader'
 
 const NewProduct = ({history}) => {
 
@@ -84,6 +85,8 @@ const NewProduct = ({history}) => {
 
   return (
     <Fragment>
+
+    {loading ? <Loader/> : <Fragment>
         <MetaData title= 'New Product' />
         <div className="dashboard">
             <Sidebar/>
@@ -129,6 +132,8 @@ const NewProduct = ({history}) => {
                 </form>
             </div>
         </div>
+    </Fragment> }   
+    
     </Fragment>
   )
 }

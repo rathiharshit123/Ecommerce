@@ -108,8 +108,8 @@ class ProductServices {
         let responseObject = utils.responseFormat();
         try {
             let {id} = requestObj.params;
-            
-            if(id.lenght!=24){
+
+            if(id.length!=24){
                 responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
                 return responseObject;
             }
@@ -119,6 +119,10 @@ class ProductServices {
             if(!product){
                 responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
                 return responseObject;
+            }
+
+            for (const image of product.images) {
+                await cloudinary.v2.uploader.destroy(image.publicId);
             }
 
             await product.remove();
