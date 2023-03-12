@@ -89,12 +89,39 @@ class ProductServices {
                 responseObject = utils.response(responseCode.PRODUCT_NOT_FOUND);
                 return responseObject;
             }
+
+            let images = [];
+
+            if(typeof requestObj.body.images === 'string') {
+                images.push(requestObj.body.images);
+            } else {
+                images = requestObj.body.images;
+            }
+
+            if(images) {
+                for (const image of product.images) {
+                    await cloudinary.v2.uploader.destroy(image.publicId);
+                }
+
+                let imagesLink = [];
+
+                for (const image of images) {
+                    const result = await cloudinary.v2.uploader.upload(image,{
+                        folder: "products"
+                    })
+                    imagesLink.push({
+                        publicId: result.public_id,
+                        url: result.secure_url
+                    })
+                }
+                requestObj.body.images = imagesLink;
+            }
             
             product = await productModel.findByIdAndUpdate(id,requestObj.body,{
                 new: true,
                 runValidators: true,
                 useFindAndModify: true,
-            
+    
             })
             responseObject.data = product;
         } catch (error) {

@@ -4,7 +4,7 @@ import { ALL_PRODUCT_FAIL, ALL_PRODUCT_REQUEST,ALL_PRODUCT_SUCCESS, CLEAR_ERRORS
      NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, NEW_REVIEW_FAIL,
      ADMIN_PRODUCTS_SUCCESS,ADMIN_PRODUCTS_FAIL,ADMIN_PRODUCTS_REQUEST,
      NEW_PRODUCT_FAIL,NEW_PRODUCT_REQUEST,NEW_PRODUCT_SUCCESS,
-     DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_FAIL,DELETE_PRODUCT_SUCCESS } from "../constants/productConstants";
+     DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_FAIL,DELETE_PRODUCT_SUCCESS, UPDATE_PRODUCT_REQUEST, UPDATE_PRODUCT_SUCCESS, UPDATE_PRODUCT_FAIL } from "../constants/productConstants";
 
 
 export const getAllProduct = (keyword = '', currentPage = 1, price = [0,25000], category, ratings = 0)=>  async (dispatch)=>{
@@ -32,7 +32,6 @@ export const getAllProduct = (keyword = '', currentPage = 1, price = [0,25000], 
 export const getProduct = (id)=> async (dispatch) => {
     try {
         dispatch({type: PRODUCT_DETAILS_REQUEST});
-
         let response = await axios.get(`/api/v1/product/get/${id}`);
         if(response?.data?.code === 200){
             dispatch({type: PRODUCT_DETAILS_SUCCESS,payload:response.data})
@@ -84,7 +83,7 @@ export const createNewProduct = (data)=> async (dispatch) => {
     try {
         dispatch({type: NEW_PRODUCT_REQUEST});
 
-        const config = {headers: {"Content-Type": "application/json"}}
+        const config = {headers: {"Content-Type": "multiform/form-data"}}
         let response = await axios.post(`/api/v1/product/admin/add`,data,config);
         if(response?.data?.code === 200){
             dispatch({type: NEW_PRODUCT_SUCCESS,payload:response.data})
@@ -111,6 +110,24 @@ export const deleteProduct = (id)=> async (dispatch) => {
         let message = "Internal server Error"
         let data = {message};
         dispatch({type: DELETE_PRODUCT_FAIL,payload: data})
+    }
+}
+
+export const updateProduct = (productData,id)=> async (dispatch) => {
+    try {
+        dispatch({type: UPDATE_PRODUCT_REQUEST});
+        const config = {headers: {"Content-Type": "multiform/form-data"}}
+
+        let response = await axios.put(`/api/v1/product/admin/update/${id}`,productData,config);
+        if(response?.data?.code === 200){
+            dispatch({type: UPDATE_PRODUCT_SUCCESS,payload:response.data})
+        } else {
+            dispatch({type: UPDATE_PRODUCT_FAIL, payload: response.data})
+        }
+    } catch (error) {
+        let message = "Internal server Error"
+        let data = {message};
+        dispatch({type: UPDATE_PRODUCT_FAIL,payload: data})
     }
 }
 

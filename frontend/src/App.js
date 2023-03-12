@@ -32,6 +32,7 @@ import OrderDetails from './components/Order/OrderDetails'
 import Dashboard from './components/Admin/Dashboard'
 import ProductList from './components/Admin/ProductList'
 import NewProduct from './components/Admin/NewProduct';
+import UpdateProduct from './components/Admin/UpdateProduct'
 
 function App() {
 
@@ -85,6 +86,7 @@ function App() {
       <ProtectedRoute isAdmin={true} exact path = '/admin/dashboard' component={Dashboard}/>
       <ProtectedRoute isAdmin={true} exact path = '/admin/products' component={ProductList}/>
       <ProtectedRoute isAdmin={true} exact path = '/admin/product' component={NewProduct}/>
+      <ProtectedRoute isAdmin={true} exact path = '/admin/product/:id' component={UpdateProduct}/>
       <Footer/>
     </Router>
   );
