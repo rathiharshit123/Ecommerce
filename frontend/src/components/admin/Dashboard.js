@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import Sidebar from './Sidebar.js'
 import './Dashboard.css'
 import { Typography } from '@material-ui/core'
@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 import { Doughnut, Line } from 'react-chartjs-2'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProductsAdmin } from '../../actions/productAction.js'
+import { getAllOrders } from '../../actions/orderAction.js'
+import Loader from '../layout/Loader/Loader.js'
 
 const Dashboard = () => {
 
@@ -13,10 +15,13 @@ const Dashboard = () => {
     
     useEffect(() => {
         dispatch(getAllProductsAdmin());
+        dispatch(getAllOrders());
     }, [dispatch])
     
     
-    const {products} = useSelector(state=>state.products);
+    const {products,loading: productLoading} = useSelector(state=>state.products);
+    const {orders, loading: orderLoading} = useSelector((state)=>state.allOrders)
+
     let outOfStock = 0;
     products && products.forEach((product)=>{
         if(!product.stock) outOfStock++;
@@ -45,14 +50,22 @@ const Dashboard = () => {
         ],
       };
 
+      let totalAmount = 0;
+      orders?.forEach(order => {
+        totalAmount+=order.totalPrice
+      });
+
   return (
+
+    <Fragment>
+        {(productLoading || orderLoading)? <Loader/> : <Fragment>
         <div className="dashboard">
             <Sidebar/>
             <div className="dashboardContainer">
                 <Typography component='h1'> Dashboard </Typography>
                 <div className="dashboardSummary">
                     <div>
-                        <p>Total Amount <br />₹2000 </p>
+                        <p>Total Amount <br />₹{totalAmount}</p>
                     </div>
                     <div className="dashboardSummaryBox2">
                         <Link to='/admin/products' >
@@ -61,7 +74,7 @@ const Dashboard = () => {
                         </Link>
                         <Link to='/admin/orders' >
                             <p>Orders</p>
-                            <p>4</p>
+                            <p>{orders.length}</p>
                         </Link>
                         <Link to='/admin/users' >
                             <p>Users</p>
@@ -78,6 +91,11 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
+        </Fragment>
+        }
+    </Fragment>
+
+        
     )
 }
 

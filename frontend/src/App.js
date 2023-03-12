@@ -33,6 +33,8 @@ import Dashboard from './components/Admin/Dashboard'
 import ProductList from './components/Admin/ProductList'
 import NewProduct from './components/Admin/NewProduct';
 import UpdateProduct from './components/Admin/UpdateProduct'
+import OrderList from './components/Admin/OrderList'
+import ProcessOrder from './components/Admin/ProcessOrder'
 
 function App() {
 
@@ -83,10 +85,15 @@ function App() {
       <ProtectedRoute exact path = '/success' component={OrderSuccess}/>
       <ProtectedRoute exact path = '/orders' component={MyOrders}/>
       <ProtectedRoute exact path = '/orders/:id' component={OrderDetails}/>
+
+      {/* ADMIN ROUTES */}
       <ProtectedRoute isAdmin={true} exact path = '/admin/dashboard' component={Dashboard}/>
       <ProtectedRoute isAdmin={true} exact path = '/admin/products' component={ProductList}/>
       <ProtectedRoute isAdmin={true} exact path = '/admin/product' component={NewProduct}/>
       <ProtectedRoute isAdmin={true} exact path = '/admin/product/:id' component={UpdateProduct}/>
+      <ProtectedRoute isAdmin={true} exact path = '/admin/orders' component={OrderList}/>
+      <ProtectedRoute isAdmin={true} exact path = '/admin/order/:id' component={ProcessOrder}/>
+
       <Footer/>
     </Router>
   );

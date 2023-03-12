@@ -70,11 +70,18 @@ const UpdateProduct = ({history,match}) => {
         const myForm = new FormData();
 
         myForm.set('name',name);
-        myForm.set('price',price);
-        myForm.set('stock',stock);
-        myForm.set('category',category);
-        myForm.set('description',description);
-
+        if(price !== product.price){
+            myForm.set('price',price);
+        }
+        if(stock !== product.stock){
+            myForm.set('stock',stock);
+        }
+        if(category !== product.category){
+            myForm.set('category',category);
+        }
+        if(description !== product.description){
+            myForm.set('description',description);
+        }
         images.forEach((image) => {
             myForm.append('images',image);
         })

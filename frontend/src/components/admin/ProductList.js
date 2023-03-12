@@ -18,7 +18,7 @@ const ProductList = ({history}) => {
     const alert = useAlert();
     
     const { error, products, loading: productLoading } = useSelector((state) => state.products);
-    const {error: deleteError, isDeleted , loading} = useSelector((state)=>state.product)
+    const {error: productError, isDeleted , loading} = useSelector((state)=>state.product)
     
     const deleteProductHandler = (id) => {
       dispatch(deleteProduct(id))
@@ -30,19 +30,19 @@ const ProductList = ({history}) => {
         dispatch(clearErrors());
       }
 
-      if(deleteError) {
-        alert.error(deleteError);
+      if(productError) {
+        alert.error(productError);
         dispatch(clearErrors());
       }
 
       if(isDeleted) {
         alert.success('Product Deleted Succesfully');
-        history.push("/admin/dashboard");
+        history.push("/admin/products");
         dispatch({type: DELETE_PRODUCT_RESET});
       }
 
       dispatch(getAllProductsAdmin());
-    }, [dispatch,alert,error,history,deleteError,isDeleted])
+    }, [dispatch,alert,error,history,productError,isDeleted])
     
 
     const columns = [

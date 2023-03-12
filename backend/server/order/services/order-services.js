@@ -130,12 +130,13 @@ class OrderServices {
             }
 
             let itemsArr = orderDetails.orderItems;
-            
-            for (let item of itemsArr) {
-                await this.updateStock(item.productId,item.quantity);
+            if(status == constants.ORDER_STATUS.SHIPPED){
+                for (let item of itemsArr) {
+                    await this.updateStock(item.product,item.quantity);
+                }
             }
             
-            dataToUpdate.status = status;
+            dataToUpdate.orderStatus = status;
             if(status == constants.ORDER_STATUS.DELIVERED){
                 dataToUpdate.deliverdAt = Date.now();
             }
