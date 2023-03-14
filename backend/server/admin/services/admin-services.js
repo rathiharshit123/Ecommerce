@@ -3,6 +3,7 @@ const utils = require("../../utils/util");
 const userModel = require("../../user/models/user-model");
 const responseCode = require("../../utils/response-code");
 const productModel = require("../../product/models/product-model");
+const cloudinary = require("cloudinary");
 
 class AdminServices {
     static async getAllUsers(req){
@@ -96,8 +97,12 @@ class AdminServices {
                 responseObject = utils.response(responseCode.USER_NOT_FOUND);
                 return responseObject;
             }
+
+            const imageId = userData.avatar.publicId;
+            await cloudinary.v2.uploader.destroy(imageId);
+
             let res = await userModel.deleteOne({_id:userData._id});
-            console.log(res);
+
             responseObject = utils.response(responseCode.SUCCESS,{},"Profile deleted Succesfully")
         } catch (error) {
             logger.error(error,"Error in updateUser in AdminService")

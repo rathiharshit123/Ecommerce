@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllProductsAdmin } from '../../actions/productAction.js'
 import { getAllOrders } from '../../actions/orderAction.js'
 import Loader from '../layout/Loader/Loader.js'
+import { getAllUsers } from '../../actions/userAction.js'
 
 const Dashboard = () => {
 
@@ -16,11 +17,13 @@ const Dashboard = () => {
     useEffect(() => {
         dispatch(getAllProductsAdmin());
         dispatch(getAllOrders());
+        dispatch(getAllUsers());
     }, [dispatch])
     
     
-    const {products,loading: productLoading} = useSelector(state=>state.products);
-    const {orders, loading: orderLoading} = useSelector((state)=>state.allOrders)
+    const {products,loading: productsLoading} = useSelector(state=>state.products);
+    const {orders, loading: ordersLoading} = useSelector((state)=>state.allOrders);
+    const {users, loading: usersLoading} = useSelector((state)=>state.allUsers);
 
     let outOfStock = 0;
     products && products.forEach((product)=>{
@@ -58,7 +61,7 @@ const Dashboard = () => {
   return (
 
     <Fragment>
-        {(productLoading || orderLoading)? <Loader/> : <Fragment>
+        {(productsLoading || ordersLoading || usersLoading)? <Loader/> : <Fragment>
         <div className="dashboard">
             <Sidebar/>
             <div className="dashboardContainer">
@@ -78,7 +81,7 @@ const Dashboard = () => {
                         </Link>
                         <Link to='/admin/users' >
                             <p>Users</p>
-                            <p>3</p>
+                            <p>{users.length}</p>
                         </Link>
                     </div>
                 </div>
