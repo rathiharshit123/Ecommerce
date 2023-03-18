@@ -19,7 +19,7 @@ const ProcessOrder = ({match}) => {
   const [status, setStatus] = useState("")
 
     const {order, error,loading} = useSelector((state)=>state.orderDetails)
-    const {error: updateError, isUpdated} = useSelector((state)=>state.order)
+    const {error: updateError, isUpdated, loading: updateLoading} = useSelector((state)=>state.order)
 
     useEffect(() => {
       if(error){
@@ -53,12 +53,12 @@ const ProcessOrder = ({match}) => {
   return (
 
     <Fragment>
-      {loading? <Loader/> : <Fragment>
+      { (loading || updateLoading) ? <Loader/> : <Fragment>
         <MetaData title= 'Process Order' />
         <div className="dashboard">
             <Sidebar/>
             <div className="newProductContainer">
-            <div className="confirmOrderPage" style={{display: order.orderStatus === 'DELIVERED'? "block": "grid"}}>
+            <div className="confirmOrderPage" style={{display: order?.orderStatus === 'DELIVERED'? "block": "grid"}}>
             <div>
                 <div className="confirmShippingArea">
                     <Typography>Shipping Info</Typography>
