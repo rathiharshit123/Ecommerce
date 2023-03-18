@@ -24,10 +24,12 @@ const UpdateUser = ({history,match}) => {
     const userId = match.params.id;
 
     useEffect(() => {
+    window.scrollTo(0,0);
         dispatch(getUserDetails(userId));
       }, [dispatch, userId]);
 
     useEffect(() => {
+    window.scrollTo(0,0);
 
         if(user && user._id === userId) {
             setName(user.name);

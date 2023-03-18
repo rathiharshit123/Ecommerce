@@ -31,6 +31,7 @@ const UpdatePassword = ({history}) => {
     }
 
     useEffect(() => {
+    window.scrollTo(0,0);
       if(error){
         alert.error(error);
         dispatch(clearErrors());

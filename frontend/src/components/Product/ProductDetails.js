@@ -13,7 +13,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mate
 import { Rating } from '@material-ui/lab'
 import { NEW_REVIEW_RESET } from '../../constants/productConstants'
 
-const ProductDetails = ({match}) => {
+const ProductDetails = ({match,history}) => {
   
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -58,11 +58,19 @@ const ProductDetails = ({match}) => {
     dispatch(newReviewSubmit(myForm))
     setOpen(false)
   }
+
+  useEffect(() => {
+    window.scrollTo(0,0);
+    dispatch(getProduct(match.params.id))
+  }, [dispatch,match.params.id])
+  
   
   useEffect(() => {
+    window.scrollTo(0,0);
     if(error){
       alert.error(error);
       dispatch(clearErrors());
+      history.push("/products");
     }
     if(reviewError){
       alert.error(reviewError);
@@ -73,8 +81,7 @@ const ProductDetails = ({match}) => {
       dispatch({type:NEW_REVIEW_RESET})
     }
 
-    dispatch(getProduct(match.params.id))
-  }, [dispatch,match.params.id,error,alert,reviewError,success])
+  }, [dispatch,error,alert,reviewError,success,history])
 
   const options = {
     edit: false,

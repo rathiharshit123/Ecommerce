@@ -21,6 +21,7 @@ const LoginSignup = ({history, location}) => {
     const redirect = location.search ? location.search.split("=")[1] : "/account"
 
     useEffect(() => {
+    window.scrollTo(0,0);
       if(error){
         alert.error(error);
         dispatch(clearErrors());

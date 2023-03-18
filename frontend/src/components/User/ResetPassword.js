@@ -18,6 +18,7 @@ const ResetPassword = ({history,match}) => {
     const {loading,error,success} = useSelector(state=>state.forgotPassword);
 
     useEffect(() => {
+    window.scrollTo(0,0);
         if(error){
             alert.error(error);
             dispatch(clearErrors());

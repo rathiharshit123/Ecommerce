@@ -28,10 +28,12 @@ const UpdateProduct = ({history,match}) => {
     const productId = match.params.id;
 
     useEffect(() => {
+    window.scrollTo(0,0);
         dispatch(getProduct(productId));
       }, [dispatch, productId]);
       
       useEffect(() => {
+    window.scrollTo(0,0);
         if (product && product._id === productId) {
           setName(product.name);
           setDescription(product.description);

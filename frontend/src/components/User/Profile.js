@@ -11,6 +11,7 @@ const Profile = ({history}) => {
     const {userDetails} = user;
 
     useEffect(() => {
+    window.scrollTo(0,0);
         if(!isAuthenticated){
             history.push("/login")
         }

@@ -22,6 +22,7 @@ const ProcessOrder = ({match}) => {
     const {error: updateError, isUpdated, loading: updateLoading} = useSelector((state)=>state.order)
 
     useEffect(() => {
+    window.scrollTo(0,0);
       if(error){
         alert.error(error);
         dispatch(clearErrors())

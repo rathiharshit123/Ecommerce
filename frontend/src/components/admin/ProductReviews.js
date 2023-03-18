@@ -33,6 +33,7 @@ const ProductReviews = ({history}) => {
     }
 
     useEffect(() => {
+    window.scrollTo(0,0);
 
         if(productId.length === 24) {
             dispatch(getAllReviews(productId)); 
