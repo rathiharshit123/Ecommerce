@@ -18,9 +18,9 @@ app.use(cookieParser());
 app.use(fileUpload());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname,"./client/build")))
+app.use(express.static(path.join(__dirname,"./client")))
 app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname,"./client/build/index.html"))
+    res.sendFile(path.resolve(__dirname,"./client/index.html"))
 })
 
 cloudinary.config(config.cloudinary);
