@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node backend/app.js",
-    "build": "cd frontend && npm install --legacy-peer-deps && npm run build && cd .. && npm run start"
+    "build": "cd frontend && npm install --legacy-peer-deps && npm run build",
+    "deploy": "npm run build && cyclic deploy -p '/backend:/var/task' -p '/frontend/build:/var/task/public'"
   },
   "repository": {
     "type": "git",
