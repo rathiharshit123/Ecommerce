@@ -2,7 +2,7 @@ import './App.css';
 import Header from "./components/layout/Header/Header"
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import WebFont from 'webfontloader';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Footer from './components/layout/Footer/Footer';
 import Home from './components/Home/Home';
 import ProductDetails from "./components/Product/ProductDetails"
@@ -38,6 +38,7 @@ import ProcessOrder from './components/Admin/ProcessOrder'
 import UserList from './components/Admin/UserList'
 import UpdateUser from './components/Admin/UpdateUser'
 import ProductReviews from './components/Admin/ProductReviews'
+import NotFound from './components/layout/NotFound/NotFound';
 
 function App() {
 
@@ -52,7 +53,7 @@ function App() {
   }
 
 
-  React.useEffect(()=>{
+  useEffect(()=>{
     WebFont.load({
       google:{
         families: ["Roboto", "Droid Sans", "Chilanka"]
@@ -61,6 +62,8 @@ function App() {
     store.dispatch(loadUser())
     getStripeKey()
   },[]);
+
+  window.addEventListener("contextmenu",(e) => e.preventDefault());
 
 
   return (
@@ -101,6 +104,8 @@ function App() {
         <ProtectedRoute isAdmin={true} exact path = '/admin/users' component={UserList}/>
         <ProtectedRoute isAdmin={true} exact path = '/admin/user/:id' component={UpdateUser}/>
         <ProtectedRoute isAdmin={true} exact path = '/admin/reviews' component={ProductReviews}/>
+
+        <Route component={window.location.pathname === '/process/purchase'? null : NotFound}/>
       </Switch>
 
       <Footer/>
