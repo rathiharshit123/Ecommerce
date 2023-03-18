@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import {UpdateProfile,LoginSignup,UpdatePassword,ForgotPassword,ResetPassword,Profile} from './components/User'
 import {Home} from './components/Home';
 import {ProductDetails,Products,Search} from "./components/Product"
-import {Dashboard,ProductList,ProcessOrder,NewProduct,UserList,UpdateUser,ProductReviews,UpdateProduct,OrderList} from './components/Admin'
+import {Dashboard,ProductList,ProcessOrder,NewProduct,UserList,UpdateUser,ProductReviews,UpdateProduct,OrderList} from './components/admin'
 import ProtectedRoute from './components/Route/ProtectedRoute';
 import {Cart,ConfirmOrder,OrderSuccess,Payment,Shipping} from "./components/Cart"
 import axios from 'axios';
