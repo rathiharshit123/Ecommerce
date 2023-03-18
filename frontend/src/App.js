@@ -1,44 +1,22 @@
 import './App.css';
-import Header from "./components/layout/Header/Header"
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import WebFont from 'webfontloader';
 import React, { useState,useEffect } from 'react';
-import Footer from './components/layout/Footer/Footer';
-import Home from './components/Home/Home';
-import ProductDetails from "./components/Product/ProductDetails"
-import Products from "./components/Product/Products"
-import Search from "./components/Product/Search"
-import LoginSignup from './components/User/LoginSignup';
 import store from './store';
-import { loadUser } from './actions/userAction';
-import UserOptions from "./components/layout/Header/UserOptions"
-import { useSelector } from 'react-redux';
-import Profile from './components/User/Profile.js'
-import ProtectedRoute from './components/Route/ProtectedRoute';
-import UpdateProfile from './components/User/UpdateProfile'
-import UpdatePassword from './components/User/UpdatePassword'
-import ForgotPassword from './components/User/ForgotPassword'
-import ResetPassword from "./components/User/ResetPassword"
-import Cart from "./components/Cart/Cart"
-import Shipping from './components/Cart/Shipping'
-import ConfirmOrder from './components/Cart/ConfirmOrder'
-import axios from 'axios';
-import Payment from './components/Cart/Payment'
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import OrderSuccess from './components/Cart/OrderSuccess'
-import MyOrders from './components/Order/MyOrders'
-import OrderDetails from './components/Order/OrderDetails'
-import Dashboard from './components/Admin/Dashboard'
-import ProductList from './components/Admin/ProductList'
-import NewProduct from './components/Admin/NewProduct';
-import UpdateProduct from './components/Admin/UpdateProduct'
-import OrderList from './components/Admin/OrderList'
-import ProcessOrder from './components/Admin/ProcessOrder'
-import UserList from './components/Admin/UserList'
-import UpdateUser from './components/Admin/UpdateUser'
-import ProductReviews from './components/Admin/ProductReviews'
-import NotFound from './components/layout/NotFound/NotFound';
+import {Header,Footer,UserOptions,NotFound} from "./components/layout"
+import { loadUser } from './actions/userAction';
+import { useSelector } from 'react-redux';
+import {UpdateProfile,LoginSignup,UpdatePassword,ForgotPassword,ResetPassword,Profile} from './components/User'
+import {Home} from './components/Home';
+import {ProductDetails,Products,Search} from "./components/Product"
+import {Dashboard,ProductList,ProcessOrder,NewProduct,UserList,UpdateUser,ProductReviews,UpdateProduct,OrderList} from './components/Admin'
+import ProtectedRoute from './components/Route/ProtectedRoute';
+import {Cart,ConfirmOrder,OrderSuccess,Payment,Shipping} from "./components/Cart"
+import axios from 'axios';
+import {MyOrders,OrderDetails} from './components/Order'
+
 
 function App() {
 
