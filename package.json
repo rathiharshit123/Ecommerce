@@ -2,12 +2,11 @@
   "name": "ecommerce",
   "version": "1.0.0",
   "description": "Ecommerce website",
-  "main": "backend/app.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend/app.js",
-    "build": "cd frontend && npm install --legacy-peer-deps && npm run build",
-    "deploy": "npm run build && cyclic deploy -p '/backend:/var/task' -p '/frontend/build:/var/task/public'"
+    "start": "node app.js",
+    "build": "cd frontend && npm install --legacy-peer-deps && npm run build && cd .."
   },
   "repository": {
     "type": "git",
