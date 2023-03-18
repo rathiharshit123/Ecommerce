@@ -1,6 +1,7 @@
 const path = require('path');
-const dotenv = require('dotenv');
-dotenv.config({path: path.resolve(__dirname, './.env')})
+if(process.env.NODE_ENV!="PRODUCTION") {
+    require("dotenv").config({path: path.resolve(__dirname, './.env')})
+}
 
 const config = require('./config/config')
 const cloudinary = require("cloudinary");
