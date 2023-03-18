@@ -1,0 +1,6 @@
+build:
+  steps:
+    - run: npm run build
+deploy:
+  steps:
+    - run: npm start
