@@ -40,13 +40,13 @@ const NewProduct = ({history}) => {
     
 
     const categories = [
-        "Laptop",
-        "Clothing",
-        "Bottom",
-        "Tops",
-        "Attire",
-        "Camera",
-        "SmartPhones",
+        "Grocery",
+        "Mobiles",
+        "Fashion",
+        "Electronics",
+        "Home",
+        "Furniture",
+        "Toys & Games",
       ];
 
     const createProductSubmitHandler = (e) => {

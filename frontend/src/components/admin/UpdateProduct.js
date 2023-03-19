@@ -57,14 +57,14 @@ const UpdateProduct = ({history,match}) => {
         }
       }, [dispatch, alert, error, history, isUpdated, productId, product, updateError]);
           
-    const categories = [
-        "Laptop",
-        "Clothing",
-        "Bottom",
-        "Tops",
-        "Attire",
-        "Camera",
-        "SmartPhones",
+      const categories = [
+        "Grocery",
+        "Mobiles",
+        "Fashion",
+        "Electronics",
+        "Home",
+        "Furniture",
+        "Toys & Games",
       ];
 
     const updateProductSubmitHandler = (e) => {
