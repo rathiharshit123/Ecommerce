@@ -18,15 +18,16 @@ app.use(cookieParser());
 app.use(fileUpload());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname,"./client")))
-app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname,"./client/index.html"))
-})
 
 cloudinary.config(config.cloudinary);
 
 const routes = require('./server/routes');
 routes(app);
+
+app.use(express.static(path.join(__dirname,"./frontend/build")))
+app.get("*",(req,res)=>{
+    res.sendFile(path.resolve(__dirname,"./frontend/build/index.html"))
+})
 
 const port = config.PORT || 5000;
 
@@ -35,6 +36,7 @@ const port = config.PORT || 5000;
 // })
 
 // Only for deploying to cyclic
+// Since cyclic is serverless so mongoDb should connect first only then the server should listen -> as per docs on cyclic
 const mongoose = require("mongoose");
 const connectDB = async () => {
     try {
