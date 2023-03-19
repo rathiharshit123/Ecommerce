@@ -30,6 +30,25 @@ routes(app);
 
 const port = config.PORT || 5000;
 
-app.listen(port, ()=>{
-    console.log(`App running on port ${port} open server on`)
+// app.listen(port, ()=>{
+//     console.log(`App running on port ${port} open server on`)
+// })
+
+// Only for deploying to cyclic
+const mongoose = require("mongoose");
+const connectDB = async () => {
+    try {
+      const conn = await mongoose.connect(config.mongoUrl);
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
+  }
+
+//Connect to the database before listening
+connectDB().then(() => {
+    app.listen(port, () => {
+        console.log(`listening for requests on port: ${port}`);
+    })
 })
