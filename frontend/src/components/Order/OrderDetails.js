@@ -27,9 +27,7 @@ const OrderDetails = ({match}) => {
 
   return (
     <Fragment>
-        {loading ? <Loader/> : <Fragment> 
-        {console.log("BHAI PEHLE IDHAR AAGYA aur order ki value hai ",order)}
-        
+        {loading ? <Loader/> : <Fragment>         
         <MetaData title="Order Details"/>
         <div className="orderDetailsPage">
             <div className="orderDetailsContainer">

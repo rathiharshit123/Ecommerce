@@ -315,7 +315,6 @@ class ProductServices {
                 ratings,
                 numberOfReviews
             }
-            console.log(dataToUpdate,"DATATOUPDATE")
 
             await productModel.findByIdAndUpdate(productId,dataToUpdate);
 
