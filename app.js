@@ -24,9 +24,9 @@ cloudinary.config(config.cloudinary);
 const routes = require('./server/routes');
 routes(app);
 
-app.use(express.static(path.join(__dirname,"./frontend/build")))
+app.use(express.static(path.join(__dirname,"./clien")))
 app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname,"./frontend/build/index.html"))
+    res.sendFile(path.resolve(__dirname,"./clien/index.html"))
 })
 
 const port = config.PORT || 5000;
