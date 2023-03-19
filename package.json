@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "build": "cd frontend && npm install --legacy-peer-deps && npm run build && cd .. && cp -r frontend/build client && rm -rf frontend"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
