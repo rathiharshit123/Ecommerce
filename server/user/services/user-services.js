@@ -282,7 +282,6 @@ class UserServices{
             }
             if(avatar){
                 let r = await cloudinary.v2.uploader.destroy(user.avatar.publicId);
-                console.log(r,"HUI YE DESTROY??")
                 const myCloud = await cloudinary.v2.uploader.upload(avatar,{folder: "avatars",width: 150,crop: "scale"})
                 toUpdate.avatar = {
                     publicId: myCloud.public_id,
@@ -290,10 +289,9 @@ class UserServices{
                 }
             }
 
-            let res = await userModel.findByIdAndUpdate(user._id,
+            await userModel.findByIdAndUpdate(user._id,
                 toUpdate
             )
-            console.log(res,"KYA HAI FIR YE")
             responseObject = utils.response(responseCode.SUCCESS,{},"Profile Updated Succesfully")
         } catch (error) {
             logger.error(error,"Error in updateMyProfile  Service");
