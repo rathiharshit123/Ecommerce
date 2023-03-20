@@ -221,6 +221,10 @@ class UserServices{
     static async getMyProfile(req){
         let responseObject = utils.responseFormat();
         try {
+            if(!req.user){
+                responseObject = utils.response(responseCode.CANNNOT_FIND_ACCOUNT);
+                return responseObject;
+            }
             let user = await userModel.findById(req.user._id);
             let {token} = req.cookies
             let data = {
