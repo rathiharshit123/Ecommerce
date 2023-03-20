@@ -15,13 +15,21 @@ class UserServices{
         try {
             const {name,email,password,avatar} = requestObj;
             
-            const myCloud = await cloudinary.v2.uploader.upload(avatar,{folder: "avatars",width: 150,crop: "scale"})
             const checkUserExist = await userModel.findOne({email});
-
             if(checkUserExist){
                 responseObject = utils.response(responseCode.EMAIL_ALREADY_EXIST);
                 return responseObject;
             }
+
+            let imageDetails = {};
+            if(avatar){
+                const myCloud = await cloudinary.v2.uploader.upload(avatar,{folder: "avatars",width: 150,crop: "scale"})
+                imageDetails = {
+                    publicId: myCloud.public_id,
+                    url: myCloud.secure_url
+                }
+            }
+            
 
             let hashedPassword = await this.getHashPassword(password);
 
@@ -29,10 +37,7 @@ class UserServices{
                 name,
                 email,
                 password: hashedPassword,
-                avatar: {
-                    publicId: myCloud.public_id,
-                    url: myCloud.secure_url
-                }
+                avatar: imageDetails,
             })
 
             let token = this.createToken(user._id);

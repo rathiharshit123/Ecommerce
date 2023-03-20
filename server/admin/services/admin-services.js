@@ -98,8 +98,10 @@ class AdminServices {
                 return responseObject;
             }
 
-            const imageId = userData.avatar.publicId;
-            await cloudinary.v2.uploader.destroy(imageId);
+            const imageId = userData.avatar?.publicId;
+            if(imageId){
+                await cloudinary.v2.uploader.destroy(imageId);
+            }
 
             let res = await userModel.deleteOne({_id:userData._id});
 
